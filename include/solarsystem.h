@@ -31,7 +31,7 @@
 class CelestialBody {
 
     public:
-        CelestialBody (std::string name, double mass, std::vector<double> position);
+        CelestialBody (std::string name, double mass, std::vector<double> position, std::vector<double> velocity);
         ~CelestialBody () {};
 
         void printState();
@@ -41,19 +41,37 @@ class CelestialBody {
         double getMass(); 
         double getX();
         double getY();
+        double getZ();
+
+        double getVx();
+        double getVy();
+        double getVz();
+        
         std::vector<double> getPos();
+        std::vector<double> getVel();
      
         // setters
         void setName(std::string new_name);
         void setMass(double new_mass);
+        
         void setX(double new_x);
         void setY(double new_y);
+        void setZ(double new_z);
+
+        void setVx(double new_vx);
+        void setVy(double new_vy);
+        void setVz(double new_vz);
+        
         void setPos(std::vector<double> new_pos); 
-         
+        void setVel(std::vector<double> new_vel); 
+        
+        void updatePos(double dt);
+        void updateVel(std::vector<double> acceleration, double dt);
     private:
         std::string m_name;
         double m_mass;
         std::vector<double> m_position;
+        std::vector<double> m_velocity;
 }; 
 
 #endif
