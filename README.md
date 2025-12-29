@@ -13,9 +13,9 @@ The project is subdivided in directories:
 
 * src: containing source files (.cpp)
 * include: containig header files (.h, .cc)
-* bin: where executables will be compiled
-* root: where ROOT files will be stored
+* bin: containing compiled executables
+* root: containing ROOT files
 
 Moreover Make will be used to guarantee the automation of the compiling process.
-If the project becomes too complex to use Make, CMake will be used,
+If the project becomes too complex to use Make, CMake will be used
 in order to automatize the Make file generation used to build the executables (.out).
