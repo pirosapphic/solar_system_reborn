@@ -72,9 +72,26 @@ double CelestialBody::getX() {
 double CelestialBody::getY() {
     return m_pos[1];
 }    
+double CelestialBody::getZ() {
+    return m_position[2];
+}    
+
+double CelestialBody::getVx() {
+    return m_velocity[0];
+}
+double CelestialBody::getVy() {
+    return m_velocity[1];
+}    
+double CelestialBody::getVz() {
+    return m_velocity[2];
+}    
 
 std::vector<double> CelestialBody::getPos() {
     return m_pos;
+}
+
+std::vector<double> CelestialBody::getVel() {
+    return m_velocity;
 }
 
 // setters
@@ -90,9 +107,22 @@ void CelestialBody::setMass(double new_mass) {
 void CelestialBody::setX(double new_x) {
     m_pos[0] = new_x;
 }
-
 void CelestialBody::setY(double new_y) {
     m_pos[1] = new_y;
+}
+void CelestialBody::setZ(double new_z) {
+    m_position[2] = new_z;
+}
+
+
+void CelestialBody::setVx(double new_vx) {
+    m_velocity[0] = new_vx;
+}
+void CelestialBody::setVy(double new_vy) {
+    m_velocity[1] = new_vy;
+}
+void CelestialBody::setVz(double new_vz) {
+    m_velocity[2] = new_vz;
 }
 
 void CelestialBody::setPos(std::vector<double> new_pos) {
