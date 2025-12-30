@@ -98,6 +98,12 @@ void CelestialBody::updatePos(double dt){
     m_position[2]+=m_velocity[2]*dt;
 }
 
+
+// ---------------------------------- DETAILS ------------------------------------
+// Do we need to pass bodies as arguments to GF?
+// Where is std::vector<CelestialBody> Bodies created? Does it have to be lowercase?
+// m_position and m_velocity have been changed respectively to m_pos and m_vel!
+
 void CelestialBody::GravitationalForce(double G) {
 
 	CelestialBody& Body1 = Bodies[0];		//Sole
@@ -120,13 +126,13 @@ void CelestialBody::GravitationalForce(double G) {
 	double acceleration1 = force / Body1.getMass();	//da mettere poi la massa ridotta
 	double acceleration2 = force / Body2.getMass();	//da mettere poi la massa ridotta
 		
-	Body1.m_velocity[0]+=acceleration1*Ux;
-    	Body1.m_velocity[1]+=acceleration1*Uy;
-    	Body1.m_velocity[2]+=acceleration1*Uz;
-    	
-    	Body2.m_velocity[0]+=acceleration2*Ux;
-    	Body2.m_velocity[1]+=acceleration2*Uy;
-    	Body2.m_velocity[2]+=acceleration2*Uz;
+ 	Body1.m_velocity[0]+=acceleration1*Ux;
+ 	Body1.m_velocity[1]+=acceleration1*Uy;
+    Body1.m_velocity[2]+=acceleration1*Uz;
+	
+    Body2.m_velocity[0]+=acceleration2*Ux;
+    Body2.m_velocity[1]+=acceleration2*Uy;
+    Body2.m_velocity[2]+=acceleration2*Uz;
 	
 	
 	
