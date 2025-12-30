@@ -29,6 +29,7 @@
 // whoever will add "using namespace std" at the start of ANY file will be mocked, bullied, prosecuted and publicly punished by me (0universe0). Have a great time coding ;)
 
 std::vector<class CelestialBody> Bodies;
+//I do not understand why this is here -PSph
 
 class CelestialBody {
 
@@ -68,8 +69,9 @@ class CelestialBody {
         void setVel(std::vector<double> new_vel); 
         
         void updatePos(double dt);
+        void updateVel(std::vector<double> acceleration, double dt);
         void GravitationalForce(double G);
-    //private:
+    //private:  //why is this commented?? -PSph
         std::string m_name;
         double m_mass;
         std::vector<double> m_position;

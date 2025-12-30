@@ -98,12 +98,21 @@ void CelestialBody::updatePos(double dt){
     m_position[2]+=m_velocity[2]*dt;
 }
 
+void CelestialBody::updateVel(std::vector<double> acceleration, double dt){
+    m_velocity[0]+=acceleration[0]*dt;
+    m_velocity[1]+=acceleration[1]*dt;
+    m_velocity[2]+=acceleration[2]*dt;
+}
 
 // ---------------------------------- DETAILS ------------------------------------
 // Do we need to pass bodies as arguments to GF?
 // Where is std::vector<CelestialBody> Bodies created? Does it have to be lowercase?
 // m_position and m_velocity have been changed respectively to m_pos and m_vel!
-
+// -by Universe
+//
+// I do not understand why this was implemented as a method of the class and why
+// it declares 2 new bodies (in scope?), then it returns nothing
+// -by Pirosapphic
 void CelestialBody::GravitationalForce(double G) {
 
 	CelestialBody& Body1 = Bodies[0];		//Sole
