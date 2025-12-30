@@ -8,7 +8,6 @@
 //#pragma once
 //!without endif!
 
-
 // The following convention is wise to be followed:
 // naming prefix:
 //      m for members
@@ -34,10 +33,15 @@ std::vector<class CelestialBody> Bodies;
 class CelestialBody {
 
     public:
-        CelestialBody (std::string name, double mass, std::vector<double> position, std::vector<double> velocity);
+
+        CelestialBody();
+        CelestialBody(std::string name, double mass, double x, double y, double z, double vx, double vy, double vz); //default constructor
+        
+        CelestialBody(std::string name, double mass, std::vector<double> pos, std::vector<double> vel); //array constructor
+
         ~CelestialBody () {};
 
-        void printState();
+        void printInfo();
 
         // getters
         std::string getName();
@@ -67,15 +71,64 @@ class CelestialBody {
         
         void setPos(std::vector<double> new_pos); 
         void setVel(std::vector<double> new_vel); 
-        
+
         void updatePos(double dt);
-        void updateVel(std::vector<double> acceleration, double dt);
+        void updateVel(std::vector<double> acc, double dt);
+        void updateVel(double ax, double ay, double az, double dt);
         void GravitationalForce(double G);
-    //private:  //why is this commented?? -PSph
+
+    private:
         std::string m_name;
         double m_mass;
-        std::vector<double> m_position;
-        std::vector<double> m_velocity;
-}; 
 
+        double m_x;
+        double m_y;
+        double m_z;
+        double m_vx;
+        double m_vy;
+        double m_vz;
+
+        std::vector<double> m_pos;
+        std::vector<double> m_vel;
+};
+
+class Star: public CelestialBody{
+  public:
+    void printInfo();
+    void updatePos(double dt);
+    void updateVel(double ax, double ay, double az, double dt);
+    void updateVel(std::vector<double> acc, double dt);
+    
+    Star();
+    Star(std::string name, double mass, double x, double y, double z, double vx, double vy, double vz); //default constructor
+    Star(std::string name, double mass, std::vector<double> pos, std::vector<double> vel); //array constructor
+    ~Star();
+};
+
+class Planet: public CelestialBody{
+  public:
+    void printInfo();
+    void updatePos(double dt);
+    void updateVel(double ax, double ay, double az, double dt);
+    void updateVel(std::vector<double> acc, double dt);
+    
+    Planet();
+    Planet(std::string name, double mass, double x, double y, double z, double vx, double vy, double vz); //default constructor
+    Planet(std::string name, double mass, std::vector<double> pos, std::vector<double> vel); //array constructor
+    ~Planet();
+};
+
+
+class Moon: public CelestialBody{
+  public:
+    void printInfo();
+    void updatePos(double dt);
+    void updateVel(double ax, double ay, double az, double dt);
+    void updateVel(std::vector<double> acc, double dt);
+    
+    Moon();
+    Moon(std::string name, double mass, double x, double y, double z, double vx, double vy, double vz); //default constructor
+    Moon(std::string name, double mass, std::vector<double> pos, std::vector<double> vel); //array constructor
+    ~Moon();
+};
 #endif
