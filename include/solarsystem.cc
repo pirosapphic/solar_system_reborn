@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <cmath>
 
 #include "solarsystem.h"
 
@@ -97,8 +98,38 @@ void CelestialBody::updatePos(double dt){
     m_position[2]+=m_velocity[2]*dt;
 }
 
-void CelestialBody::updateVel(std::vector<double> acceleration, double dt){
-    m_velocity[0]+=acceleration[0]*dt;
-    m_velocity[1]+=acceleration[1]*dt;
-    m_velocity[2]+=acceleration[2]*dt;
+void CelestialBody::GravitationalForce(double G) {
+
+	CelestialBody& Body1 = Bodies[0];		//Sole
+	CelestialBody& Body2 = Bodies[1];		//Generico altro pianeta
+	
+	double dx = Body1.getX() - Body2.getX();
+	double dy = Body1.getY() - Body2.getY();
+	double dz = Body1.getZ() - Body2.getZ();
+
+	double distance = std::sqrt(dx * dx + dy * dy + dz * dz);
+	
+	//Versori
+	
+	double Ux = dx / distance;
+	double Uy = dy / distance;
+	double Uz = dz / distance;
+	
+	double force = G * ((Body1.getMass() * Body2.getMass()) / (distance * distance));
+
+	double acceleration1 = force / Body1.getMass();	//da mettere poi la massa ridotta
+	double acceleration2 = force / Body2.getMass();	//da mettere poi la massa ridotta
+		
+	Body1.m_velocity[0]+=acceleration1*Ux;
+    	Body1.m_velocity[1]+=acceleration1*Uy;
+    	Body1.m_velocity[2]+=acceleration1*Uz;
+    	
+    	Body2.m_velocity[0]+=acceleration2*Ux;
+    	Body2.m_velocity[1]+=acceleration2*Uy;
+    	Body2.m_velocity[2]+=acceleration2*Uz;
+	
+	
+	
 }
+
+
