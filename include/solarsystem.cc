@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <cmath>
 
 #include "solarsystem.h"
 
@@ -142,26 +143,72 @@ void CelestialBody::updatePos(double dt){
     m_x += m_vx*dt;
     m_y += m_vy*dt;
     m_z += m_vz*dt;
-
-
     for(int i = 0; i < m_pos.size(); i++) {
         m_pos[i] += m_vel[i]*dt;
     }
-};
+}
+
 
 void CelestialBody::updateVel(double ax, double ay, double az, double dt){
     m_vx +=ax*dt;
     m_vy +=ay*dt;
     m_vz +=az*dt;
-};
+}
 
 void CelestialBody::updateVel(std::vector<double> acc, double dt){
     CelestialBody::updateVel(acc[0], acc[1], acc[2], dt);
-    
     for(int i = 0; i < m_pos.size(); i++) {
         m_vel[i] += acc[i]*dt;
     }
-};
+}
+    
+
+
+//void CelestialBody::updateVel(std::vector<double> acceleration, double dt){
+//  m_velocity[0]+=acceleration[0]*dt;
+//  m_velocity[1]+=acceleration[1]*dt;
+//  m_velocity[2]+=acceleration[2]*dt;
+//}
+
+// ---------------------------------- DETAILS ------------------------------------
+// Do we need to pass bodies as arguments to GF?
+// Where is std::vector<CelestialBody> Bodies created? Does it have to be lowercase?
+// m_position and m_velocity have been changed respectively to m_pos and m_vel!
+// -by Universe
+//
+// I do not understand why this was implemented as a method of the class and why
+// it declares 2 new bodies (in scope?), then it returns nothing
+// -by Pirosapphic
+void CelestialBody::GravitationalForce(double G) {
+
+	CelestialBody& Body1 = Bodies[0];		//Sole
+	CelestialBody& Body2 = Bodies[1];		//Generico altro pianeta
+	
+	double dx = Body1.getX() - Body2.getX();
+	double dy = Body1.getY() - Body2.getY();
+	double dz = Body1.getZ() - Body2.getZ();
+
+	double distance = std::sqrt(dx * dx + dy * dy + dz * dz);
+	
+	//Versori
+	
+	double Ux = dx / distance;
+	double Uy = dy / distance;
+	double Uz = dz / distance;
+	
+	double force = G * ((Body1.getMass() * Body2.getMass()) / (distance * distance));
+
+	double acceleration1 = force / Body1.getMass();	//da mettere poi la massa ridotta
+	double acceleration2 = force / Body2.getMass();	//da mettere poi la massa ridotta
+		
+ 	Body1.m_vel[0]+=acceleration1*Ux;
+ 	Body1.m_vel[1]+=acceleration1*Uy;
+    Body1.m_vel[2]+=acceleration1*Uz;
+	
+    Body2.m_vel[0]+=acceleration2*Ux;
+    Body2.m_vel[1]+=acceleration2*Uy;
+    Body2.m_vel[2]+=acceleration2*Uz;
+}
 
 
 //-------------------------------------------------------------------------------
