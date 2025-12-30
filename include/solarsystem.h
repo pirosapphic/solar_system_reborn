@@ -27,9 +27,6 @@
 // 
 // whoever will add "using namespace std" at the start of ANY file will be mocked, bullied, prosecuted and publicly punished by me (0universe0). Have a great time coding ;)
 
-std::vector<class CelestialBody> Bodies;
-//I do not understand why this is here -PSph
-
 class CelestialBody {
 
     public:

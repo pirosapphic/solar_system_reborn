@@ -1,27 +1,26 @@
 #include<iostream>
 #include<string>
 #include<vector>
+#include<cstdlib>
 #include"solarsystem.h"
+#include"twobodies.h"
 
 int main (int argc, char *argv[]) {
-
-    const float G = 6.67259e-11f;
-
-    std::vector<double> pos0 = {0,0,0};
-    std::vector<double> vel0 = {0,0,0};
-    std::vector<double> pos1 = {1.5e11,0,0};
-    std::vector<double> vel1 = {30e3,0,0};
-    double dt=100;
-    CelestialBody* Sole = new CelestialBody("Sole",2e30,pos0,vel0);
-    CelestialBody* Terra = new CelestialBody("terra",6.5e21,pos1,vel1);
+    std::vector<double> sun_pos = {3,2,1};
+    std::vector<double> sun_vel = {0.,0.,0.};
     
-    Bodies[0].GravitationalForce(G);
-    
-    for(int i = 0; i < Bodies.size(); i++){
-    	CelestialBody& Current_Body = Bodies[i];
-    	
-    	Current_Body.updatePos(dt);
-    }
+    std::vector<double> earth_pos = {3,4,5};
+    std::vector<double> earth_vel = {0.,0.,0.};
+    CelestialBody* sun = new CelestialBody("sol",1.989e3,sun_pos,sun_vel);
+    CelestialBody* earth = new CelestialBody("terra",1.989e3,earth_pos,earth_vel);
+    sun->printInfo();
+    earth->printInfo();
+    changeToCOM(*earth,*sun);
+    CelestialBody* equivalent = new CelestialBody("dummy_name",666,sun_vel,sun_pos);
+    sun->printInfo();
+    earth->printInfo();
+    *equivalent = equivalentBody(*sun,*earth);
+    equivalent->printInfo();
     return 0;
     
 }

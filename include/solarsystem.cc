@@ -57,8 +57,8 @@ CelestialBody::CelestialBody(std::string name, double mass, std::vector<double> 
 void CelestialBody::printInfo() {
     std::cout << "The state of " << m_name << " is:\n";
     std::cout << "  mass: " << m_mass << "\n";
-    std::cout << "  position: (" << m_pos[0] << ", " << m_pos[1] << ")\n";
-    std::cout << "  velocity: (" << m_vel[0] << ", " << m_vel[1] << ")\n";
+    std::cout << "  position: (" << m_pos[0] << ", " << m_pos[1] << ", " << m_pos[2] <<")m\n";
+    std::cout << "  velocity: (" << m_vel[0] << ", " << m_vel[1] << ", " << m_vel[2] <<")m/s\n";
 }
 
 // getters
@@ -74,17 +74,17 @@ double CelestialBody::getY() {
     return m_pos[1];
 }    
 double CelestialBody::getZ() {
-    return m_position[2];
+    return m_pos[2];
 }    
 
 double CelestialBody::getVx() {
-    return m_velocity[0];
+    return m_vel[0];
 }
 double CelestialBody::getVy() {
-    return m_velocity[1];
+    return m_vel[1];
 }    
 double CelestialBody::getVz() {
-    return m_velocity[2];
+    return m_vel[2];
 }    
 
 std::vector<double> CelestialBody::getPos() {
@@ -92,7 +92,7 @@ std::vector<double> CelestialBody::getPos() {
 }
 
 std::vector<double> CelestialBody::getVel() {
-    return m_velocity;
+    return m_vel;
 }
 
 // setters
@@ -112,18 +112,18 @@ void CelestialBody::setY(double new_y) {
     m_pos[1] = new_y;
 }
 void CelestialBody::setZ(double new_z) {
-    m_position[2] = new_z;
+    m_pos[2] = new_z;
 }
 
 
 void CelestialBody::setVx(double new_vx) {
-    m_velocity[0] = new_vx;
+    m_vel[0] = new_vx;
 }
 void CelestialBody::setVy(double new_vy) {
-    m_velocity[1] = new_vy;
+    m_vel[1] = new_vy;
 }
 void CelestialBody::setVz(double new_vz) {
-    m_velocity[2] = new_vz;
+    m_vel[2] = new_vz;
 }
 
 void CelestialBody::setPos(std::vector<double> new_pos) {
@@ -165,20 +165,22 @@ void CelestialBody::updateVel(std::vector<double> acc, double dt){
 
 
 //void CelestialBody::updateVel(std::vector<double> acceleration, double dt){
-//  m_velocity[0]+=acceleration[0]*dt;
-//  m_velocity[1]+=acceleration[1]*dt;
-//  m_velocity[2]+=acceleration[2]*dt;
+//  m_vel[0]+=acceleration[0]*dt;
+//  m_vel[1]+=acceleration[1]*dt;
+//  m_vel[2]+=acceleration[2]*dt;
 //}
 
 // ---------------------------------- DETAILS ------------------------------------
 // Do we need to pass bodies as arguments to GF?
 // Where is std::vector<CelestialBody> Bodies created? Does it have to be lowercase?
-// m_position and m_velocity have been changed respectively to m_pos and m_vel!
+// m_pos and m_vel have been changed respectively to m_pos and m_vel!
 // -by Universe
 //
 // I do not understand why this was implemented as a method of the class and why
 // it declares 2 new bodies (in scope?), then it returns nothing
 // -by Pirosapphic
+
+/*
 void CelestialBody::GravitationalForce(double G) {
 
 	CelestialBody& Body1 = Bodies[0];		//Sole
@@ -209,7 +211,7 @@ void CelestialBody::GravitationalForce(double G) {
     Body2.m_vel[1]+=acceleration2*Uy;
     Body2.m_vel[2]+=acceleration2*Uz;
 }
-
+*/
 
 //-------------------------------------------------------------------------------
 
