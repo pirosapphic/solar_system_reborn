@@ -13,4 +13,5 @@ CelestialBody toEquivalentBody(CelestialBody p1, CelestialBody p2);
 std::vector<double> gravityAcceleration(CelestialBody p, double m1, double m2);
 void fromEquivalentBody(CelestialBody equivalent, CelestialBody& p1, CelestialBody& p2);
 
+void setInitialConditions(CelestialBody& p1, CelestialBody& p2);
 #endif

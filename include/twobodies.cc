@@ -109,3 +109,7 @@ void fromEquivalentBody(CelestialBody equivalent, CelestialBody& p1, CelestialBo
     p1.setVel(vel1);
     p2.setVel(vel2);
 }
+
+void setInitialConditions(CelestialBody& p1, CelestialBody& p2){
+    std::cout << "diofa\n";
+}
