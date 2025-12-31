@@ -130,6 +130,9 @@ void CelestialBody::setPos(std::vector<double> new_pos) {
     m_pos = new_pos;
 }
 
+void CelestialBody::setVel(std::vector<double> new_vel) {
+    m_vel = new_vel;
+}
 
 //Object
 
