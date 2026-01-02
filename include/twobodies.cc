@@ -5,6 +5,7 @@
 #include "solarsystem.h"
 #include "twobodies.h"
 
+
 void changeToCOM(CelestialBody& p1, CelestialBody& p2){
     //this functions changes the frame of reference of the problem to that
     //of the center of mass
@@ -110,6 +111,119 @@ void fromEquivalentBody(CelestialBody equivalent, CelestialBody& p1, CelestialBo
     p2.setVel(vel2);
 }
 
-void setInitialConditions(CelestialBody& p1, CelestialBody& p2){
-    std::cout << "diofa\n";
+void setInitialConditions(Planets& planets, CelestialBody& p1, CelestialBody& p2){
+    double earth_mass = 5.97e24;
+    double moon_mass = 7.34e22;
+    double sun_mass = 1.99e30;
+    // Yes this is dumb, it's been 4 hours... 
+    Planets passed_planets = planets;
+    // --------------------------------------------------------------------------------------//
+    std::vector<double> origin_pos{0., 0., 0.};
+    std::vector<double> earth_pos{1.49e11, 0., 0.};
+    std::vector<double> moon_pos{3.84e8, 0., 0.};
+    
+    // Check input with switch statement
+    std::cout << "Hello there, welcome! Do you want to use one of the available presets?:\n\n";
+    std::cout << "  - 1) Default: Two-body (Earth - Moon)\n";
+    std::cout << "  - 2) Two-body (Sun - Earth)\n";
+    // These may be implemented later
+    std::cout << " ----------- WARNING ------------- ";
+    std::cout << " the following options (3 and 4) must be implemented before the end of the project ";
+    std::cout << "  - 3) Three body (Sun - Earth - Moon)\n";
+    std::cout << "  - 4) Solar System ( full )\n";
+    std::cout << "  - 5) Custom\n\n";
+    std::cout << "Please provide an integer to choose the preferred preset: ";
+
+    int input = 0;
+    std::cin >> input;
+
+    int customBody1;
+    int customBody2;
+
+        if (input == 1)
+            {
+            p1.setName("Earth"); 
+            p2.setName("Moon");
+            p1.setMass(earth_mass);
+            p2.setMass(moon_mass);
+            p1.setPos(origin_pos);
+            p2.setPos(moon_pos);
+            }
+        else if (input == 2)
+            {
+            p1.setName("Sun");
+            p2.setName("Earth");
+            p1.setMass(sun_mass);
+            p2.setMass(earth_mass);
+            p1.setPos(origin_pos);
+            p2.setPos(earth_pos);
+            }
+        else if (input == 3)
+        {
+            std::cout << "need to implement";
+            }
+        else if (input == 4)
+        {
+            std::cout << "need to implement";
+            }
+        else {
+            std::cout << "please type body 1 name from the following options: \n";
+            std::cout << "0)  earth\n";
+            std::cout << "1)  sun\n";
+            std::cout << "2)  mercury\n";
+            std::cout << "3)  venus\n";
+            std::cout << "4)  saturn\n";
+            std::cout << "5)  jupiter\n";
+            std::cout << "6)  uranus\n";
+            std::cout << "7)  neptune\n";
+            std::cout << "8)  pluto (?)\n"; 
+            std::cout << ": ";
+            std::cin >> customBody1;
+
+            std::cout << "Ok! now please type body 2 name from the following options: \n";
+            std::cout << "0)  earth\n";
+            std::cout << "1)  sun\n";
+            std::cout << "2)  mercury\n";
+            std::cout << "3)  venus\n";
+            std::cout << "4)  saturn\n";
+            std::cout << "5)  jupiter\n";
+            std::cout << "6)  uranus\n";
+            std::cout << "7)  neptune\n";
+            std::cout << "8)  pluto (?)\n"; 
+            std::cout << ": ";
+            std::cin >> customBody2;
+
+            std::cout << "debug 1";
+            std::vector<CelestialBody*> chosenBodies;
+            
+            std::cout << "debug 2";
+            setInitialBodies(planets, customBody1, customBody2, chosenBodies);
+        
+            p1 = *chosenBodies[0];
+            p2 = *chosenBodies[1];
+            }            
 }
+
+void setInitialBodies(Planets& chosen_planets, int body1, int body2, std::vector<CelestialBody*>& vectorOfBodies) {
+    if(body1 == 1) {
+                CelestialBody* p1 = chosen_planets.sun;
+                vectorOfBodies.push_back(p1);
+            }
+    else if (body1 == 2){
+                CelestialBody* p1 = chosen_planets.jupiter;
+                vectorOfBodies.push_back(p1);
+            }
+    else {
+        std::cout << "No arguments valid! (1st if) \n";
+    }
+    
+    if(body2 == 1) {
+                CelestialBody* p2 = chosen_planets.earth;
+                vectorOfBodies.push_back(p2);
+            }
+    else {
+        std::cout << "no arguments provided (2nd if) \n";
+    
+    }  
+}
+

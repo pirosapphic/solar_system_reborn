@@ -56,12 +56,15 @@ CelestialBody::CelestialBody(std::string name, double mass, std::vector<double> 
 
 void CelestialBody::printInfo() {
     std::cout << "The state of " << m_name << " is:\n";
-    std::cout << "  mass: " << m_mass << "\n";
+    std::cout << "  mass: " << m_mass << " kg\n";
     std::cout << "  position: (" << m_pos[0] << ", " << m_pos[1] << ", " << m_pos[2] <<")m\n";
     std::cout << "  velocity: (" << m_vel[0] << ", " << m_vel[1] << ", " << m_vel[2] <<")m/s\n";
 }
 
 // getters
+std::string CelestialBody::getName() {
+    return m_name;
+}
 
 double CelestialBody::getMass() {
     return m_mass;
