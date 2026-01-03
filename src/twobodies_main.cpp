@@ -1,18 +1,14 @@
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <vector>
 #include <cmath>
 #include "../include/solarsystem.h"
 #include "../include/twobodies.h"
+#include "../include/planets.h"
 
 int main () {
     //declaring useful variables
-    CelestialBody* p1 = new CelestialBody("default",0,0,0,0,0,0,0);
-    CelestialBody* p2 = new CelestialBody("default",0,0,0,0,0,0,0);
-    double total_time = 666;
-    double dt = 666;
-    double m1 = 666;
-    double m2 = 666;
     //note that the vector is in the stack, but the contents
     //are dynamically allocated in the heap.
     
@@ -27,32 +23,52 @@ int main () {
     //  If y0 is the initial value of y, y0 == pos1[0][1] is true.
     
 //FIRSTLY we implement a way to choose the initial conditions of the problem
-    char choice;
-    while(true){
-        std::cout << "Welcome to the two bodies simulation!\n";
-        std::cout << "Would you like to choose a preset? [y/n]: ";
-        std::cin >> choice;
-        if(choice == 'y' || choice=='n') break;
+    double preset_mass = 1;
+    std::vector<double> preset_pos = {0.,0.,0.};
+    std::vector<double> preset_vel = {0.,0.,0.};
+
+    CelestialBody* presetBody1 = new CelestialBody("preset_body1", preset_mass, preset_pos, preset_vel);
+    CelestialBody* presetBody2 = new CelestialBody("preset_body2", preset_mass, preset_pos, preset_vel);
+    
+    Planets setOfPlanets; //variable that contains presets for the planets
+                          // and dwarf planets of the solar system.
+    setInitialConditions(setOfPlanets, *presetBody1, *presetBody2);
+    
+    changeToCOM(*presetBody1, *presetBody2);
+
+    presetBody1->printInfo();
+    presetBody2->printInfo();
+    
+    double m1 = presetBody1->getMass();
+    double m2 = presetBody2->getMass();
+    double totalt;
+    double dt;
+    std::cout << "Set total time of the simulation [s]: ";
+    std::cin >> totalt;
+    std::cout << "Set the infinitesimal step dt [s]: ";
+    std::cin >> dt;
+    int steps = totalt/dt;
+    CelestialBody* equivalentBody = new CelestialBody("preset_body", preset_mass, preset_pos, preset_vel); //dummy declaration
+    *equivalentBody = toEquivalentBody(*presetBody1, *presetBody2);
+    std::vector<double> acceleration;
+    for(int i = 0; i<=steps; i++){
+        presetBody1->printInfo();
+        presetBody2->printInfo();
+        pos1.push_back(presetBody1->getPos());
+        pos2.push_back(presetBody2->getPos());
+        vel1.push_back(presetBody1->getVel());
+        vel2.push_back(presetBody2->getVel());
+
+        acceleration = gravityAcceleration(*equivalentBody, m1, m2);
+        equivalentBody->updateVel(acceleration,dt);
+        equivalentBody->updatePos(dt);
+        fromEquivalentBody(*equivalentBody,*presetBody1,*presetBody2);
     }
-    if(choice == 'n') setInitialConditions(*p1,*p2);
-    else{
-        while(true){
-            int preset;
-            std::cout << "List of presets:\n";
-            std::cout << "  0: Earth Moon \n";
-            std::cout << "  1: Sun Mercury \n";
-            std::cout << "  2: Sun Venus \n";
-            std::cout << "  3: Sun Earth \n";
-            std::cout << "  4: Sun Mars \n";
-            std::cout << "  5: Sun Jupyter \n";
-            std::cout << "  6: Sun Saturn \n";
-            std::cout << "  7: Sun Uranus \n";
-            std::cout << "  8: Sun Neptune \n";
-            //these are too many, will probably reduce them
-            std::cout << "Which preset would you like to choose? ";
-            std::cin >> preset;
-            if(preset<=8 && preset >=0) break;
-        }
+    std::ofstream out_file("twobodies.csv");
+    out_file<<"x1,y1,z1,x2,y2,z2"<<std::endl;
+    for(int i = 0; i<=steps;i++){
+        out_file<<pos1[i][0]<<","<<pos1[i][1]<<","<<pos1[i][2]<<","<<pos2[i][0]<<","<<pos2[i][1]<<","<<pos2[i][2]<<std::endl;
     }
+    out_file.close();
     return 0;
 }

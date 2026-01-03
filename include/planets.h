@@ -8,7 +8,6 @@ class Planets {
     public:
         Planets() {};
         ~Planets() {};
-
         CelestialBody* sun = new CelestialBody("sun", 1.98e30, {0.,0.,0.}, {0.,0.,0.});
         CelestialBody* mercury = new CelestialBody("mercury",3.3e23, {0.,0.,0.}, {0.,0.,0.});
         CelestialBody* venus = new CelestialBody("venus",4.86e24, {0.,0.,0.}, {0.,0.,0.});
@@ -18,15 +17,14 @@ class Planets {
         CelestialBody* saturn = new CelestialBody("saturn",5.68e26, {0.,0.,0.}, {0.,0.,0.});
         CelestialBody* uranus = new CelestialBody("uranus",8.6e25, {0.,0.,0.}, {0.,0.,0.});
         CelestialBody* neptune = new CelestialBody("neptune",1.02e26, {0.,0.,0.}, {0.,0.,0.});
-};
-
-class DwarfPlanets { 
-    public:
+        CelestialBody* pluto = new CelestialBody("pluto",1.30e22, {0.,0.,0.}, {0.,0.,0.});
+        std::vector<CelestialBody*> list_of_planets = {sun, mercury, venus, earth, mars, jupiter, saturn, uranus, neptune, pluto};
         CelestialBody* ceres = new CelestialBody("ceres",9.38e20, {0.,0.,0.}, {0.,0.,0.});
         CelestialBody* pluto = new CelestialBody("pluto",1.30e22, {0.,0.,0.}, {0.,0.,0.});
         CelestialBody* eris = new CelestialBody("eris",1.66e22, {0.,0.,0.}, {0.,0.,0.});
         CelestialBody* makemake = new CelestialBody("makemake",3.10e20, {0.,0.,0.}, {0.,0.,0.});
         CelestialBody* haumea = new CelestialBody("haumea",4.01e20, {0.,0.,0.}, {0.,0.,0.});
+        std::vector<CelestialBody*> list_of_dwarf_planets = {ceres, pluto, eris, makemake, haumea};
 };
 
 
