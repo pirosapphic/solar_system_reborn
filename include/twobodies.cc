@@ -74,7 +74,9 @@ std::vector<double> gravityAcceleration(CelestialBody p,double m1, double m2){
     distance = std::sqrt(distance);
 
     for(int i=0;i<p.getPos().size();i++){
-      acceleration[i] = G * (m1 + m2) * p.getPos()[i] / std::pow(distance,3);
+      double acc = G * (m1 + m2) * p.getPos()[i] / std::pow(distance,3);
+      acceleration.push_back(acc);
+      
     }
     
     return acceleration;
@@ -226,4 +228,9 @@ void setInitialBodies(Planets& chosen_planets, int body1, int body2, std::vector
     
     }  
 }
+
+
+
+
+
 
