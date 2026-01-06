@@ -160,6 +160,7 @@ void setInitialConditions(Planets& planets, CelestialBody& p1, CelestialBody& p2
             p2.setMass(earth_mass);
             p1.setPos(origin_pos);
             p2.setPos(earth_pos);
+            p2.setVy(2.978e4);
             }
         else if (input == 3)
         {
