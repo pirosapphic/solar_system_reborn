@@ -180,7 +180,7 @@ void setInitialConditions(Planets& planets, CelestialBody& p1, CelestialBody& p2
             std::cout << "6)  saturn\n";
             std::cout << "7)  uranus\n";
             std::cout << "8)  neptune\n";
-            std::cout << "9)  pluto (?)\n"; 
+            //std::cout << "9)  pluto (?)\n"; 
             std::cout << ": ";
             std::cin >> customBody1;
 
@@ -204,6 +204,40 @@ void setInitialConditions(Planets& planets, CelestialBody& p1, CelestialBody& p2
         
             p1 = *chosenBodies[0];
             p2 = *chosenBodies[1];
+            
+            double distanceInput = 0;
+            double bx1 = 0;
+            double by1 = 0;
+            double bz1 = 0;
+            double bx2 = 0;
+            double by2 = 0;
+            double bz2 = 0;
+            
+            std::cout << "Perfect! now write the distance between the 2 Bodies: \n";
+            std::cout << ": ";
+            std::cin >> distanceInput;
+            
+            std::cout << "And lastly, add the velocities of the two body: \n";
+            std::cout << "[Body 1 (x,0,0)]: ";
+            std::cin >> bx1;
+            std::cout << "[Body 1 (0,y,0)]: ";
+            std::cin >> by1;
+            std::cout << "[Body 1 (0,0,z)]: ";
+            std::cin >> bz1;
+            std::cout << "[Body 2 (x,0,0)]: ";
+            std::cin >> bx2;
+            std::cout << "[Body 2 (0,y,0)]: ";
+            std::cin >> by2;
+            std::cout << "[Body 2 (0,0,z)]: ";
+            std::cin >> bz2;
+            
+            p1.setX(distanceInput);
+            p1.setVx(bx1);
+            p1.setVy(by1);
+            p1.setVz(bz1);
+            p2.setVx(bx2);
+            p2.setVy(by2);
+            p2.setVz(bz2);
             }            
 }
 

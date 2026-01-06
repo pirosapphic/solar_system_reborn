@@ -17,7 +17,7 @@ class Planets {
         CelestialBody* saturn = new CelestialBody("saturn",5.68e26, {0.,0.,0.}, {0.,0.,0.});
         CelestialBody* uranus = new CelestialBody("uranus",8.6e25, {0.,0.,0.}, {0.,0.,0.});
         CelestialBody* neptune = new CelestialBody("neptune",1.02e26, {0.,0.,0.}, {0.,0.,0.});
-        CelestialBody* pluto = new CelestialBody("pluto",1.30e22, {0.,0.,0.}, {0.,0.,0.});
+        //CelestialBody* pluto = new CelestialBody("pluto",1.30e22, {0.,0.,0.}, {0.,0.,0.});
         std::vector<CelestialBody*> list_of_planets = {sun, mercury, venus, earth, mars, jupiter, saturn, uranus, neptune, pluto};
         CelestialBody* ceres = new CelestialBody("ceres",9.38e20, {0.,0.,0.}, {0.,0.,0.});
         CelestialBody* pluto = new CelestialBody("pluto",1.30e22, {0.,0.,0.}, {0.,0.,0.});
