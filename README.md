@@ -15,6 +15,7 @@ The project is subdivided in directories:
 * include: containig header files (.h, .cc)
 * bin: containing compiled executables
 * root: containing ROOT files
+* csv: containing the .csv files that store the simulations' output
 
 Moreover Make will be used to guarantee the automation of the compiling process.
 If the project becomes too complex to use Make, CMake will be used
