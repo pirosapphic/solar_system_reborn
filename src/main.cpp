@@ -40,7 +40,8 @@ int Simulation(Planets& planets, ) {
     int customBody1 = 0;
     int customBody2 = 0;
     std::vector<Selected_Planets> simulated_planets = {};
-    int n = 0
+    int n = 0;
+    int s = 0;
 
         if (input == 1){
         
@@ -78,22 +79,31 @@ int Simulation(Planets& planets, ) {
             }
         else if (input == 5){
         
-            std::cout << "How many objects would you like to simulate:"
+            std::cout << "How many objects would you like to simulate:" << std::endl;
+            std::cin >> n;
             
+            if(n <= 2){
+            
+            	setInitialConditions(Planets& planets, CelestialBody& p1, CelestialBody& p2)
+            
+            }
+            
+            
+            for(int i = 0; i < n; i++){
         
-            std::cout << "please type body 1 name from the following options: \n";
-            std::cout << "0)  sun\n";
-            std::cout << "1)  mercury\n";
-            std::cout << "2)  venus\n";
-            std::cout << "3)  earth\n";
-            std::cout << "4)  mars\n";
-            std::cout << "5)  jupiter\n";
-            std::cout << "6)  saturn\n";
-            std::cout << "7)  uranus\n";
-            std::cout << "8)  neptune\n";
-            //std::cout << "9)  pluto (?)\n"; 
-            std::cout << ": ";
-            std::cin >> customBody1;
+		  std::cout << "please type body 1 name from the following options: \n";
+		  std::cout << "0)  sun\n";
+		  std::cout << "1)  mercury\n";
+		  std::cout << "2)  venus\n";
+		  std::cout << "3)  earth\n";
+		  std::cout << "4)  mars\n";
+		  std::cout << "5)  jupiter\n";
+		  std::cout << "6)  saturn\n";
+		  std::cout << "7)  uranus\n";
+		  std::cout << "8)  neptune\n";
+		  //std::cout << "9)  pluto (?)\n"; 
+		  std::cout << ": ";
+		  std::cin >> s;
 
             std::vector<CelestialBody*> chosenBodies;
             
