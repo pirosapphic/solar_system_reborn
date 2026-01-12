@@ -114,16 +114,17 @@ void fromEquivalentBody(CelestialBody equivalent, CelestialBody& p1, CelestialBo
 }
 
 void setInitialConditions(Planets& planets, CelestialBody& p1, CelestialBody& p2){
-    double earth_mass = 5.97e24;
-    double moon_mass = 7.34e22;
-    double sun_mass = 1.99e30;
+    //double earth_mass = 5.97e24;
+    //double moon_mass = 7.34e22;
+    //double sun_mass = 1.99e30;
     // Yes this is dumb, it's been 4 hours... 
-    Planets passed_planets = planets;
+    //Planets passed_planets = planets;
     // --------------------------------------------------------------------------------------//
-    std::vector<double> origin_pos{0., 0., 0.};
-    std::vector<double> earth_pos{1.49e11, 0., 0.};
-    std::vector<double> moon_pos{3.84e8, 0., 0.};
-    std::vector<double> moon_vel{0,1.022e6,0};
+    //std::vector<double> origin_pos{0., 0., 0.};
+    //std::vector<double> earth_pos{1.49e11, 0., 0.};
+    //std::vector<double> moon_pos{3.84e8, 0., 0.};
+    //std::vector<double> moon_vel{0,1.022e6,0};
+    
     // Check input with switch statement
     std::cout << "Hello there, welcome! Do you want to use one of the available presets?:\n\n";
     std::cout << "  - 1) Default: Two-body (Earth - Moon)\n";
@@ -144,13 +145,14 @@ void setInitialConditions(Planets& planets, CelestialBody& p1, CelestialBody& p2
 
         if (input == 1)
             {
-            p1.setName("Earth"); 
-            p2.setName("Moon");
-            p1.setMass(earth_mass);
-            p2.setMass(moon_mass);
-            p1.setPos(origin_pos);
-            p2.setPos(moon_pos);
-            p2.setVel(moon_vel);
+            p1.setName(planets.earth->GetName()); 
+            p2.setName(plamets.moon->GetName());
+            p1.setMass(planets.earth->GetMass());
+            p2.setMass(planets.moon->GetMass());
+            p1.setPos(planets.earth->GetPos());
+            p2.setPos(planets.moon->GetPos());
+            p1.setVel(planets.earth->GetVel());
+            p2.setVel(planets.moon->GetVel());
             }
         else if (input == 2)
             {
