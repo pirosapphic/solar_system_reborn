@@ -15,13 +15,9 @@ class Planets {
         ~Planets() {};
         CelestialBody* sun = new CelestialBody("sun", 1.989e30, {0.,0.,0.}, {0.,0.,0.});
 	
-	CelestialBody* moon = new CelestialBody("moon", 7.349e22),
-	    {-9.533730772118732E+10, 1.127827640146280E+11, 2.235212433002889E+07}
-	    {-2.426010758339047E+04, -1.951481385321161E+04, -4.542356065928299E+1});
+	CelestialBody* moon = new CelestialBody("moon", 7.349e22, {-9.533730772118732E+10, 1.127827640146280E+11, 2.235212433002889E+07}, {-2.426010758339047E+04, -1.951481385321161E+04, -4.542356065928299E+1});
 
-    	CelestialBody* mercury = new CelestialBody("mercury",3.302e23,
-	    {5.164264731482153e+10, -2.676720261491310e+10, -6.924043740469838e+09}, //m
-	    {1.288336806141178E+04, 4.546427275870906E+04, 2.533826363886032E+03}); //m/s
+    	CelestialBody* mercury = new CelestialBody("mercury",3.302e23, {5.164264731482153e+10, -2.676720261491310e+10, -6.924043740469838e+09},{1.288336806141178E+04, 4.546427275870906E+04, 2.533826363886032E+03}); //m/s
 
         CelestialBody* venus = new CelestialBody("venus",4.867e24,
 	    {8.769946027625194e+10, -6.433023931703644e10, -5.944021387171965e09},
@@ -52,7 +48,7 @@ class Planets {
 	    {-5.952781527789759E+03, 3.099664811063403E+03, 8.868023484104293E+01});
         
     //CelestialBody* pluto = new CelestialBody("pluto",1.30e22, {0.,0.,0.}, {0.,0.,0.});
-        std::vector<CelestialBody*> list_of_planets = {sun, mercury, venus, earth, mars, jupiter, saturn, uranus, neptune, pluto};
+        std::vector<CelestialBody*> list_of_planets = {sun, mercury, venus, earth, mars, jupiter, saturn, uranus, neptune};
         CelestialBody* ceres = new CelestialBody("ceres",9.38e20, {0.,0.,0.}, {0.,0.,0.});
         CelestialBody* pluto = new CelestialBody("pluto",1.30e22, {0.,0.,0.}, {0.,0.,0.});
         CelestialBody* eris = new CelestialBody("eris",1.66e22, {0.,0.,0.}, {0.,0.,0.});

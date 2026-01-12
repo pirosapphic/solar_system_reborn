@@ -145,23 +145,23 @@ void setInitialConditions(Planets& planets, CelestialBody& p1, CelestialBody& p2
 
         if (input == 1)
             {
-            p1.setName(planets.earth->GetName()); 
-            p2.setName(plamets.moon->GetName());
-            p1.setMass(planets.earth->GetMass());
-            p2.setMass(planets.moon->GetMass());
-            p1.setPos(planets.earth->GetPos());
-            p2.setPos(planets.moon->GetPos());
-            p1.setVel(planets.earth->GetVel());
-            p2.setVel(planets.moon->GetVel());
+            p1.setName(planets.earth->getName()); 
+            p2.setName(planets.moon->getName());
+            p1.setMass(planets.earth->getMass());
+            p2.setMass(planets.moon->getMass());
+            p1.setPos(planets.earth->getPos());
+            p2.setPos(planets.moon->getPos());
+            p1.setVel(planets.earth->getVel());
+            p2.setVel(planets.moon->getVel());
             }
         else if (input == 2)
             {
             p1.setName("Sun");
             p2.setName("Earth");
-            p1.setMass(sun_mass);
-            p2.setMass(earth_mass);
-            p1.setPos(origin_pos);
-            p2.setPos(earth_pos);
+            p1.setMass(planets.sun->getMass());
+            p2.setMass(planets.earth->getMass());
+            p1.setPos(planets.sun->getPos());
+            p2.setPos(planets.earth->getPos());
             p2.setVy(2.978e4);
             }
         else if (input == 3)
