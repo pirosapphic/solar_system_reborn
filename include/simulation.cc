@@ -7,20 +7,85 @@
 #include "twobodies.h"
 #include "planets.h"
 
+void customSettings(Planets planets, std::vector<CelestialBody*>& bodies){
+    //Function used in setInitialConditions to set the custom settings
+    std::cout<<"\n\nCustom settings\n";
+    std::cout<<"Number of bodies for the simulation n = ";
+    unsigned int n = 999;
+    std::cin>>n;
+    for(int i = 0; i < n; i++){
+	std::cout<<"Body "<<i+1<<std::endl;
+	std::cout<<"  - 0) Sun\n  - 1) Mercury\n  - 2) Venus\n  - 3) Earth\n  - 4) Moon\n  - 5) Mars\n  - 6) Jupiter\n  - 7) Saturn\n  - 8) Uranus\n  - 9) Neptune\n  - 10) Custom body\n";
+	unsigned int planet;
+	std::cout<<"Please choose one of the bodies listed above: ";
+	std::cin>>planet;
+	if (planet<10){
+	    bodies.push_back(planets.list_of_planets[planet]);
+	    std::cout<<"Do you want to use the default state of "<<bodies[i]->getName()<<"? [y/n]: ";
+	    char choice = 'f';
+	    std::cin>>choice;
+	    if(choice == 'n'){
+		std::cout<<"Initial state of body "<<i+1<<std::endl;
+		double x,y,z,vx,vy,vz;
+		std::cout<<"x [m] = ";
+		std::cin>>x;
+		std::cout<<"y [m] = ";
+		std::cin>>y;
+		std::cout<<"z [m] = ";
+		std::cin>>z;
+		
+		std::cout<<"vx [m/s] = ";
+		std::cin>>vx;
+		std::cout<<"vy [m/s] = ";
+		std::cin>>vy;
+		std::cout<<"vz [m/s] = ";
+		std::cin>>vz;
+		bodies[i]->setPos({x,y,z});
+		bodies[i]->setVel({vx,vy,vz});
+	    }
+	}
+	else if (planet == 10){
+	    std::cout<<"Name of the body: ";
+	    std::string custom_name = "default";
+	    double custom_mass, x,y,z, vx,vy,vz;
+	    std::cin>> custom_name;
+	    std::cout<<"Mass of the body [kg] = ";
+	    std::cin>>custom_mass;
+	    std::cout<<"Initial state of body '"<<custom_name<<"";
+	    std::cout<<"x [m] = ";
+	    std::cin>>x;
+	    std::cout<<"y [m] = ";
+	    std::cin>>y;
+	    std::cout<<"z [m] = ";
+	    std::cin>>z;
+
+	    std::cout<<"vx [m/s] = ";
+	    std::cin>>vx;
+	    std::cout<<"vy [m/s] = ";
+	    std::cin>>vy;
+	    std::cout<<"vz [m/s] = ";
+	    std::cin>>vz;
+	    CelestialBody* custom_body = new CelestialBody(custom_name,custom_mass,{x,y,z},{vx,vy,vz});
+	    bodies.push_back(custom_body);
+	}
+	std::cout<<"-----------------------\n";
+    }
+}
+
 void setInitialConditions(Planets planets, std::vector<CelestialBody*>& bodies){
     //This is the greeter and the function that sets the conditions for the simulations	
     unsigned int input = 0;
     while(true){
-	std::cout << "Welcome, which one of the preset simulations would you like to use:\n\n";
+	std::cout << "Welcome to the n-body simulator!\nYou can choose a preset or setup a custom simulation.\n\n";
 	std::cout << "  - 1) Earth - Moon\n";
 	std::cout << "  - 2) Sun - Earth\n";
 	std::cout << "  - 3) Sun - Earth - Moon\n";
 	std::cout << "  - 4) Solar System (full)\n";
 	std::cout << "  - 5) Custom\n\n";
-	std::cout << "Please provide an integer to choose the preferred preset: ";
+	std::cout << "Choose one of the options above: ";
 	std::cin>>input;
 	if(input <= 5 and input > 0) break;
-	std::cout<<"Please choose one of the options listed above\n";
+	std::cout<<"Invalid option, try again\n";
     }
     if (input == 1){
 	bodies.push_back(planets.earth);
@@ -41,13 +106,12 @@ void setInitialConditions(Planets planets, std::vector<CelestialBody*>& bodies){
     }
     else if (input == 4){
 	bodies = planets.list_of_planets; //in order of distance from the sun,
-    }				 	  //but with the moon between earth and mars
+    }				 	  //but with the moon between earth and mars: see planets.h
     else if (input == 5){
-	std::cout<<"If you can read this, we still need to implement custom settings...\n";
+	customSettings(planets, bodies);
     }
 
 }
-
 
 
 void twoBodiesSimulation(CelestialBody& p1, CelestialBody& p2, double totalt, double dt){
