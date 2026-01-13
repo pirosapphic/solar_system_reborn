@@ -20,5 +20,7 @@ Moreover Make will be used to guarantee the automation of the compiling process.
 If the project becomes too complex to use Make, CMake will be used
 in order to automatize the Make file generation used to build the executables (.out).
 ## How to use
-Firstly, you need to clone this repository with the command <code>git clone https://www.github.com/0universe0/solar_system</code>. 
-[to be continued...]
+Firstly, you need to clone this repository with the command
+<code>git clone https://www.github.com/0universe0/solar_system</code>. 
+Then you can compile the binaries with <code>make</code>.
+[To be continued...]
