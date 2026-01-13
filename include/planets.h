@@ -31,7 +31,7 @@ class Planets {
 
         CelestialBody* uranus = new CelestialBody("uranus",8.681e25, {1.462905365250269E+12, 2.521202204462178E+12, -9.605259337934494E+09}, {-5.952781527789759E+03, 3.099664811063403E+03, 8.868023484104293E+01});
 
-        CelestialBody* neptune = new CelestialBody("neptune",1.02e26, {1.462905365250269E+12, 2.521202204462178E+12, -9.605259337934494E+09},{-5.952781527789759E+03, 3.099664811063403E+03, 8.868023484104293E+01});
+        CelestialBody* neptune = new CelestialBody("neptune",1.024e26, {1.462905365250269E+12, 2.521202204462178E+12, -9.605259337934494E+09},{-5.952781527789759E+03, 3.099664811063403E+03, 8.868023484104293E+01});
         
     //CelestialBody* pluto = new CelestialBody("pluto",1.30e22, {0.,0.,0.}, {0.,0.,0.});
         std::vector<CelestialBody*> list_of_planets = {sun, mercury, venus, earth, moon, mars, jupiter, saturn, uranus, neptune};

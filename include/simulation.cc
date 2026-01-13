@@ -7,8 +7,9 @@
 #include "twobodies.h"
 #include "planets.h"
 
-void customSettings(Planets planets, std::vector<CelestialBody*>& bodies){
+void customSettings(std::vector<CelestialBody*>& bodies){
     //Function used in setInitialConditions to set the custom settings
+    Planets planets;
     std::cout<<"\n\nCustom settings\n";
     std::cout<<"Number of bodies for the simulation n = ";
     unsigned int n = 999;
@@ -72,8 +73,9 @@ void customSettings(Planets planets, std::vector<CelestialBody*>& bodies){
     }
 }
 
-void setInitialConditions(Planets planets, std::vector<CelestialBody*>& bodies){
+void setInitialConditions(std::vector<CelestialBody*>& bodies){
     //This is the greeter and the function that sets the conditions for the simulations	
+    Planets planets;
     unsigned int input = 0;
     while(true){
 	std::cout << "Welcome to the n-body simulator!\nYou can choose a preset or setup a custom simulation.\n\n";
@@ -91,7 +93,7 @@ void setInitialConditions(Planets planets, std::vector<CelestialBody*>& bodies){
 	bodies.push_back(planets.earth);
 	bodies.push_back(planets.moon);
 	std::cout<<"Suggested simulation times are:\n";
-	std::cout<<"Total time: 2.7e6s (i.e. 28 days)\n Time step: 10s\n\n";
+	std::cout<<"Total time: 2.7e6s (i.e. 28 days)\nTime step: 10s\n\n";
     }
     else if (input == 2){
 	bodies.push_back(planets.sun);
@@ -108,7 +110,7 @@ void setInitialConditions(Planets planets, std::vector<CelestialBody*>& bodies){
 	bodies = planets.list_of_planets; //in order of distance from the sun,
     }				 	  //but with the moon between earth and mars: see planets.h
     else if (input == 5){
-	customSettings(planets, bodies);
+	customSettings(bodies);
     }
 
 }
@@ -124,7 +126,7 @@ void twoBodiesSimulation(CelestialBody& p1, CelestialBody& p2, double totalt, do
     //the first index is the time step, so that pos1[i] is the position vector of p1 @ t=i*dt
 
     changeToCOM(p1,p2);
-    CelestialBody* equivalent = new CelestialBody("default",0,{0,0,0},{0,0,0});
+    CelestialBody* equivalent = new CelestialBody();
     *equivalent = toEquivalentBody(p1,p2);
     std::vector<double> acceleration;
     std::ofstream out_file("./csv/output.csv"); //to export data

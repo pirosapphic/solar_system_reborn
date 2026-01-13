@@ -7,9 +7,9 @@
 #include "solarsystem.h"
 #include "twobodies.h"
 
-void setInitialConditions(Planets planets, std::vector<CelestialBody*>& bodies);
+void setInitialConditions(std::vector<CelestialBody*>& bodies);
 
-void customSettings(Planets planets, std::vector<CelestialBody*>& bodies);
+void customSettings(std::vector<CelestialBody*>& bodies);
 
 void nBodiesSimulation(std::vector<CelestialBody*>& bodies, double totalt, double dt);
 

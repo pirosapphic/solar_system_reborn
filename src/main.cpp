@@ -3,13 +3,12 @@
 #include <vector>
 #include <string>
 //#include "../include/solarsystem.h"
-#include "../include/planets.h"
+//#include "../include/planets.h"
 #include "../include/simulation.h"
 
 int main(){
-    Planets planets;
     std::vector<CelestialBody*> bodies;
-    setInitialConditions(planets, bodies);
+    setInitialConditions(bodies);
     double totalt;
     double dt;
     std::cout<<"Total time simulated [s]: ";
