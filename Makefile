@@ -1,2 +1,2 @@
-twobodiessimulation:
-	g++ include/{solarsystem.cc,twobodies.cc} src/twobodies_main.cpp -o bin/twobodies
+main:
+	g++ include/{solarsystem.cc,twobodies.cc,simulation.cc} src/main.cpp -o bin/main
