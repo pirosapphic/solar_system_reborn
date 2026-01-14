@@ -48,14 +48,6 @@ void second_kepler(){
     std::cout<<"dA/dt(t=0s) = "<<areal_sun_earth[0]<<std::endl;
     std::cout<<"dA/dt(t=365days) = "<<areal_sun_earth[n-2]<<std::endl;
     //std::cout<<"Difference = "<<areal_sun_earth[n-2]-areal_sun_earth[0]<<"m^2/s"<<std::endl;
-    //these two should be equal, but they are not because of the inaccuracy of
-    //Euler's method
-    //Since we know that the closest value of dA/dt to the real one is the initial,
-    //we choose that which minimizes the error.
-    //
-    //with 3e5 iterations the increase is  8.6e10, with a "relative error" of 0.00004
-    //with 3e6 			       is -7.4e14, 			      0.35
-    //with 6e5 			       is -1.1e14, 			      0.05
     delete sun; //to free memory 
     delete earth; //twoBodiesSimulation takes CelestialBody&, so we need to recreate
 		  //the object to have the correct initial conditions.
@@ -78,15 +70,16 @@ void second_kepler(){
     std::cout<<"Earth moon\n";
     std::cout<<"dA/dt(t=0s) = "<<areal_earth_moon[0]<<std::endl;
     std::cout<<"dA/dt(t=29days) = "<<areal_earth_moon[n-2]<<std::endl;
-    std::cout<<"Difference = "<<areal_earth_moon[n-2]-areal_earth_moon[0]<<"m^2/s"<<std::endl;
+    //std::cout<<"Difference = "<<areal_earth_moon[n-2]-areal_earth_moon[0]<<"m^2/s"<<std::endl;
 
-//3e5 iterations -> diff 1.4e9, rel = 0.007
-//3e6			-1.67e10,     0.08	
 //----------------------------------------------------------------------------------
     //now for the graphic part: we now graph dA/dt(t) to show that it is constant
     TCanvas* c1 = new TCanvas("earth sun","c1",1200,800);
     TGraph* gSE = new TGraph(areal_sun_earth.size(), sun_earth_time.data(), areal_sun_earth.data());
     gSE->Draw("AP");
+    TCanvas* c2 = new TCanvas("earth moon","c2",1200,800);
+    TGraph* gEM = new TGraph(areal_earth_moon.size(), earth_moon_time.data(), areal_earth_moon.data());
+    gEM->Draw("AP");
 }
 
 
