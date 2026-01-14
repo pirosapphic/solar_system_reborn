@@ -145,7 +145,7 @@ void twoBodiesSimulation(CelestialBody& p1, CelestialBody& p2, double totalt, do
     }
     out_file.close();
     std::cout<<"Successfully simulated the motion of the bodies "<<p1.getName()<<" and "<<p2.getName()<<std::endl;
-    std::cout<<"The simulated data is stored by columns (x,y,z) in csv/output.csv\nNumber of iterations: "<<steps<<std::endl;
+    std::cout<<"The simulated data is stored by columns (x,y,z) in "<<output_file<<"\nNumber of iterations: "<<steps<<std::endl;
 }
 
 void nBodiesSimulation(std::vector<CelestialBody*>& bodies, double totalt, double dt, std::string output_file){
