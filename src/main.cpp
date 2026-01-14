@@ -2,13 +2,18 @@
 #include <cmath>
 #include <vector>
 #include <string>
+//#include "../include/solarsystem.h"
+//#include "../include/planets.h"
+#include "../include/simulation.h"
 
-int main() {
-    
-    std::cout << "how much space does the earth go through before completing a full orbit?" << std::endl;
-    std::cout << "none lmao! dumbass." << std::endl;
-
-    std::cout << "geocentrism rocks!\n";
-
-    return 0;
+int main(){
+    std::vector<CelestialBody*> bodies;
+    setInitialConditions(bodies);
+    double totalt;
+    double dt;
+    std::cout<<"Total time simulated [s]: ";
+    std::cin>>totalt;
+    std::cout<<"Time step dt [s]: ";
+    std::cin>>dt;
+    nBodiesSimulation(bodies, totalt, dt);
 }
