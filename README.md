@@ -24,4 +24,9 @@ in order to automatize the Make file generation used to build the executables (.
 Firstly, you need to clone this repository with the command
 <code>git clone https://www.github.com/0universe0/solar_system</code>. 
 Then you can compile the binaries with <code>make</code>.
+
+As of now the only presets allowed are the ones regarding two bodies, choose your preferred preset and give it a shot!
+You can choose between different presets by running the executable ./bin/main
+Then you can see the outcome of calculated data by running the following command:
+<code>root ./root/two_bodies_graphic.cpp<code>
 [To be continued...]
