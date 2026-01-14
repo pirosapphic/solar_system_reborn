@@ -15,5 +15,5 @@ int main(){
     std::cin>>totalt;
     std::cout<<"Time step dt [s]: ";
     std::cin>>dt;
-    nBodiesSimulation(bodies, totalt, dt);
+    nBodiesSimulation(bodies, totalt, dt,"./csv/output.csv");
 }

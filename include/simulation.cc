@@ -119,10 +119,10 @@ void setInitialConditions(std::vector<CelestialBody*>& bodies){
 }
 
 
-void twoBodiesSimulation(CelestialBody& p1, CelestialBody& p2, double totalt, double dt){
+void twoBodiesSimulation(CelestialBody& p1, CelestialBody& p2, double totalt, double dt, std::string output_file){
     //this is the two body simulator, implemented separately from the n-body for efficiency
     //it is called in nBodiesSimulation for n==2
-    
+    //output_file should be in the form "path/to/output.csv"
     unsigned int steps = totalt/dt;
     std::vector<std::vector<double>> pos1;
     std::vector<std::vector<double>> pos2;
@@ -132,7 +132,7 @@ void twoBodiesSimulation(CelestialBody& p1, CelestialBody& p2, double totalt, do
     CelestialBody* equivalent = new CelestialBody();
     *equivalent = toEquivalentBody(p1,p2);
     std::vector<double> acceleration;
-    std::ofstream out_file("./csv/output.csv"); //to export data
+    std::ofstream out_file(output_file); //to export data
     out_file<<"#x1,y1,z1,x2,y2,z2"<<std::endl; //header of the csv file
     for (int i = 0; i< steps; i++){
 	pos1.push_back(p1.getPos());
@@ -148,8 +148,10 @@ void twoBodiesSimulation(CelestialBody& p1, CelestialBody& p2, double totalt, do
     std::cout<<"The simulated data is stored by columns (x,y,z) in csv/output.csv\nNumber of iterations: "<<steps<<std::endl;
 }
 
-void nBodiesSimulation(std::vector<CelestialBody*>& bodies, double totalt, double dt){
+void nBodiesSimulation(std::vector<CelestialBody*>& bodies, double totalt, double dt, std::string output_file){
     //n body simulator
+    //output_file should be in the form "path/to/output.csv"
+    
     //"Lasciate ogni speranza, voi ch'entrate"
-    if(bodies.size() == 2) twoBodiesSimulation(*bodies[0], *bodies[1], totalt, dt);
+    if(bodies.size() == 2) twoBodiesSimulation(*bodies[0], *bodies[1], totalt, dt, output_file);
 }
