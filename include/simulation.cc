@@ -10,6 +10,7 @@
 void customSettings(std::vector<CelestialBody*>& bodies){
     //Function used in setInitialConditions to set the custom settings
     Planets planets;
+    std::vector<CelestialBody*> list_of_planets = planets.list_of_planets;
     std::cout<<"\n\nCustom settings\n";
     std::cout<<"Number of bodies for the simulation n = ";
     unsigned int n = 999;
@@ -21,7 +22,8 @@ void customSettings(std::vector<CelestialBody*>& bodies){
 	std::cout<<"Please choose one of the bodies listed above: ";
 	std::cin>>planet;
 	if (planet<10){
-	    bodies.push_back(planets.list_of_planets[planet]);
+	    CelestialBody* dummy_planet = new CelestialBody(*list_of_planets[planet]);
+	    bodies.push_back(dummy_planet);
 	    std::cout<<"Do you want to use the default state of "<<bodies[i]->getName()<<"? [y/n]: ";
 	    char choice = 'f';
 	    std::cin>>choice;
@@ -76,6 +78,7 @@ void customSettings(std::vector<CelestialBody*>& bodies){
 void setInitialConditions(std::vector<CelestialBody*>& bodies){
     //This is the greeter and the function that sets the conditions for the simulations	
     Planets planets;
+    std::vector<CelestialBody*> list_of_planets = planets.list_of_planets;
     unsigned int input = 0;
     while(true){
 	std::cout << "Welcome to the n-body simulator!\nYou can choose a preset or setup a custom simulation.\n\n";
@@ -107,7 +110,7 @@ void setInitialConditions(std::vector<CelestialBody*>& bodies){
 	bodies.push_back(planets.moon);
     }
     else if (input == 4){
-	bodies = planets.list_of_planets; //in order of distance from the sun,
+	bodies = list_of_planets; //in order of distance from the sun,
     }				 	  //but with the moon between earth and mars: see planets.h
     else if (input == 5){
 	customSettings(bodies);
@@ -124,7 +127,7 @@ void twoBodiesSimulation(CelestialBody& p1, CelestialBody& p2, double totalt, do
     std::vector<std::vector<double>> pos1;
     std::vector<std::vector<double>> pos2;
     //the first index is the time step, so that pos1[i] is the position vector of p1 @ t=i*dt
-
+    
     changeToCOM(p1,p2);
     CelestialBody* equivalent = new CelestialBody();
     *equivalent = toEquivalentBody(p1,p2);

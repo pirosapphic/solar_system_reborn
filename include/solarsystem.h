@@ -32,11 +32,14 @@ class CelestialBody {
     public:
 
         CelestialBody();
+
         CelestialBody(std::string name, double mass, double x, double y, double z, double vx, double vy, double vz); //default constructor
         
         CelestialBody(std::string name, double mass, std::vector<double> pos, std::vector<double> vel); //array constructor
 
-        ~CelestialBody () {};
+        CelestialBody(const CelestialBody& p); //copy constructor
+    
+	~CelestialBody () {};
 
         void printInfo();
 

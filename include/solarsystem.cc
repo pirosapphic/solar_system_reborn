@@ -54,6 +54,19 @@ CelestialBody::CelestialBody(std::string name, double mass, std::vector<double> 
     m_vel(vel)
 {}; // Constructor with std::vector
 
+CelestialBody::CelestialBody(const CelestialBody& p):
+    m_name(p.m_name),
+    m_mass(p.m_mass),
+    m_x(p.m_pos[0]),
+    m_y(p.m_pos[1]),
+    m_z(p.m_pos[2]),
+    m_vx(p.m_vel[0]),
+    m_vy(p.m_vel[1]),
+    m_vz(p.m_vel[2]),
+    m_pos(p.m_pos),
+    m_vel(p.m_vel)
+{}; // Copy constructor
+
 void CelestialBody::printInfo() {
     //prints the state of the body, used for debugging
     std::cout << "The state of " << m_name << " is:\n";
