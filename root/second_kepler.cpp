@@ -24,7 +24,7 @@
 
 std::vector<double> areal_velocity(std::vector<std::vector<double>> vector_r, double dt);
 
-void new_kepler2(){
+void second_kepler(){
     Planets planets;
     //------------------------------------------------------
     //EARTH SUN SYSTEM

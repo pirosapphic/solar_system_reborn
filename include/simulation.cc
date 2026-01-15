@@ -116,7 +116,7 @@ void setInitialConditions(std::vector<CelestialBody*>& bodies){
     else if (input == 5){
 	customSettings(bodies);
     }
-
+    bodies.shrink_to_fit();
 }
 
 std::vector<std::vector<double>> equivalentBodySimulation(CelestialBody& p1, CelestialBody& p2, double totalt, double dt){
@@ -160,8 +160,8 @@ void twoBodiesSimulation(CelestialBody& p1, CelestialBody& p2, double totalt, do
     std::ofstream out_file(output_file); //to export data
     out_file<<"#x1,y1,z1,x2,y2,z2"<<std::endl; //header of the csv file
     for (int i = 0; i< steps; i++){
-	pos1.push_back(p1.getPos());
-	pos2.push_back(p2.getPos());
+	pos1[i] = p1.getPos();
+	pos2[i] = p2.getPos();
 	acceleration = gravityAcceleration(*equivalent,p1.getMass(),p2.getMass());
 	equivalent->updateVel(acceleration,dt);
 	equivalent->updatePos(dt);
