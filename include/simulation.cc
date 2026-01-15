@@ -131,7 +131,6 @@ std::vector<std::vector<double>> equivalentBodySimulation(CelestialBody& p1, Cel
 			  //back to p1 and p2
     CelestialBody* equivalent = new CelestialBody;
     *equivalent = toEquivalentBody(p1,p2);
-    equivalent->printInfo();
     std::vector<double> acceleration;
     for (int i = 0; i < steps; i++){
 	pos[i] = equivalent->getPos();
