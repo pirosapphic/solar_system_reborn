@@ -15,4 +15,6 @@ void nBodiesSimulation(std::vector<CelestialBody*>& bodies, double totalt, doubl
 
 void twoBodiesSimulation(CelestialBody& p1, CelestialBody& p2, double totalt, double dt,std::string output_file);
 
+std::vector<std::vector<double>> equivalentBodySimulation(CelestialBody& p1, CelestialBody& p2, double totalt, double dt);
+
 #endif

@@ -79,7 +79,7 @@ void second_kepler(){
     gSE->Draw("AP");
     TCanvas* c2 = new TCanvas("earth moon","c2",1200,800);
     TGraph* gEM = new TGraph(areal_earth_moon.size(), earth_moon_time.data(), areal_earth_moon.data());
-    gEM->Draw("AP");
+    gEM->Draw("APL");
 }
 
 
