@@ -127,7 +127,7 @@ std::vector<std::vector<double>> equivalentBodySimulation(CelestialBody& p1, Cel
     //used to verify kepler's laws
     unsigned int steps = totalt/dt;
     std::vector<std::vector<double>> pos(steps, std::vector<double>(3));
-    //changeToCOM(p1,p2); //probably do not need this, as I do not need to convert
+    changeToCOM(p1,p2); //probably do not need this, as I do not need to convert
 			  //back to p1 and p2
     CelestialBody* equivalent = new CelestialBody;
     *equivalent = toEquivalentBody(p1,p2);

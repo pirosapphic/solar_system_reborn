@@ -19,124 +19,92 @@
 //the areal velocities, we then will show that these are constant.
 //The motions considered are the orbit of the moon around the earth and the
 //orbit of the earth around the sun.
+//
+//Note that it is the equivalent body with reduced mass
 
+std::vector<double> areal_velocity(std::vector<std::vector<double>> vector_r, double dt);
 
-std::vector<double> arealVelocity(std::vector<std::vector<double>> orbital_data, double dt);
-//implemented below
-
-void second_kepler(){
+void new_kepler2(){
     Planets planets;
-    //-----------------------------------------------------------------------
-    //EARTH SUN ORBIT
+    //------------------------------------------------------
+    //EARTH SUN SYSTEM
     CelestialBody* earth = new CelestialBody(*planets.earth);
     CelestialBody* sun = new CelestialBody(*planets.sun);
-    //365 days = 3.154e7 seconds
-    double totalt = 3.154e7;
-    double dt = 100.;
-    twoBodiesSimulation(*earth,*sun,totalt,dt,"./root/csv/second_kepler_sun_earth.csv");
-    std::vector<std::vector<double>> data_sun_earth = csvReaderToDouble("./root/csv/second_kepler_sun_earth.csv",1);
-    std::vector<double> areal_sun_earth = arealVelocity(data_sun_earth, dt);
-    unsigned int n = data_sun_earth[0].size();
-    data_sun_earth.clear();
-    data_sun_earth.shrink_to_fit(); //deallocating
 
-    std::vector<double> sun_earth_time; //array for the graph time axis
-    for(int i = 0; i < areal_sun_earth.size(); i++){
-	sun_earth_time.push_back(i*dt);
-    }
-    std::cout<<"Sun earth\n";
-    std::cout<<"dA/dt(t=0s) = "<<areal_sun_earth[0]<<std::endl;
-    std::cout<<"dA/dt(t=365days) = "<<areal_sun_earth[n-2]<<std::endl;
-    //std::cout<<"Difference = "<<areal_sun_earth[n-2]-areal_sun_earth[0]<<"m^2/s"<<std::endl;
-    delete sun; //to free memory 
-    delete earth; //twoBodiesSimulation takes CelestialBody&, so we need to recreate
-		  //the object to have the correct initial conditions.
-    CelestialBody* moon = new CelestialBody(*planets.moon);
-    earth = new CelestialBody(*planets.earth);
-    totalt = 2.55e6;
-    dt = 10.;
-    twoBodiesSimulation(*earth,*moon,totalt,dt,"./root/csv/second_kepler_earth_moon.csv");
-
-    std::vector<std::vector<double>> data_earth_moon = csvReaderToDouble("./root/csv/second_kepler_earth_moon.csv",1);
-    n = data_earth_moon[0].size();
-    std::vector<double> areal_earth_moon = arealVelocity(data_earth_moon, dt);
-    data_earth_moon.clear();
-    data_earth_moon.shrink_to_fit(); //deallocating
-    
-    std::vector<double> earth_moon_time; //array for the graph time axis
-    for(int i = 0; i < areal_earth_moon.size(); i++){
-	earth_moon_time.push_back(i*dt);
-    }
-    std::cout<<"Earth moon\n";
-    std::cout<<"dA/dt(t=0s) = "<<areal_earth_moon[0]<<std::endl;
-    std::cout<<"dA/dt(t=29days) = "<<areal_earth_moon[n-2]<<std::endl;
-    //std::cout<<"Difference = "<<areal_earth_moon[n-2]-areal_earth_moon[0]<<"m^2/s"<<std::endl;
-
-//----------------------------------------------------------------------------------
-    //now for the graphic part: we now graph dA/dt(t) to show that it is constant
-    TCanvas* c1 = new TCanvas("earth sun","c1",1200,800);
-    TGraph* gSE = new TGraph(areal_sun_earth.size(), sun_earth_time.data(), areal_sun_earth.data());
-    gSE->Draw("AP");
-    TCanvas* c2 = new TCanvas("earth moon","c2",1200,800);
-    TGraph* gEM = new TGraph(areal_earth_moon.size(), earth_moon_time.data(), areal_earth_moon.data());
-    gEM->Draw("APL");
-}
-
-
-std::vector<double> arealVelocity(std::vector<std::vector<double>> orbital_data, double dt){ 
+    double totalt = 3.154e7; 	//365 days
+    double dt = 100.;		//3e5 iterations
+    std::cout<<"Simulating sun and earth\n";
+    std::vector<std::vector<double>> vector_r = equivalentBodySimulation(*sun, *earth, totalt, dt);
+    std::cout<<"Successfully simulated sun and earth\n";
+    unsigned int n = vector_r.size();
+    delete earth;	//to initialize it later
+    delete sun;		//to free memory
     std::cout<<"Now calculating dA/dt\n";
-    unsigned int n = orbital_data[0].size(); //number of iterations
-    std::vector<std::vector<double>> pos1;
-    std::vector<std::vector<double>> pos2;
-    //we re-call the data in these vectors of vectors, so that
-    //pos1[i] is the position of the first body at the time i*dt
-    for (int i = 0; i < n; i++){
-	pos1.push_back({orbital_data[0][i],orbital_data[1][i],orbital_data[2][i]});
-	pos2.push_back({orbital_data[3][i],orbital_data[4][i],orbital_data[5][i]});
+    std::vector<double> areal_SE = areal_velocity(vector_r,dt);
+    vector_r.clear(); //to reuse it
+    std::vector<double> times_SE(n-1);
+    for(int i = 0; i < n-1; i++){
+	times_SE[i] = i*dt;
     }
+    //------------------------------------------------------
+    //EARTH MOON SYSTEM
+    earth = new CelestialBody(*planets.earth);
+    CelestialBody* moon = new CelestialBody(*planets.moon);
 
-    //now we need to calculate dA/dt for each time step
-    //we calculate the vectorial distance between the two bodies r = r2-r1
-    //we calculate the vector delta_r = r1(t+dt)-r1(t)
-    //and their moduli
-    std::vector<std::vector<double>> vector_r;
-    std::vector<std::vector<double>> vector_delta_r;
-    std::vector<double> r; //|r|(t)
-    std::vector<double> delta_r; //|delta_r|(t)
-    //here I use 4 separate for loops because the size of vector_r is not defined
-    //until the loop is closed, so before that vector_r[i] has undefined behaiviour.
-
-    //One could try to allocate the space beforehand with std::vector<double> r(size)
-    //but it did not work for me.
-    for (int i = 0; i < n; i++){
-	vector_r.push_back({pos2[i][0] - pos1[i][0],pos2[i][1] - pos1[i][1],pos2[i][2] - pos1[i][2]});
+    totalt = 2.71e6; 	//29 days
+    dt = 10.;		//3e5 iterations
+    std::cout<<"Simulating earth and moon\n";
+    vector_r = equivalentBodySimulation(*earth, *moon, totalt, dt);
+    std::cout<<"Successfully simulated earth and moon\n";
+    n = vector_r.size();
+    delete earth;	//to initialize it later
+    delete moon;		//to free memory
+    std::cout<<"Now calculating dA/dt\n";
+    std::vector<double> areal_EM = areal_velocity(vector_r,dt);
+    vector_r.clear();
+    std::vector<double> times_EM(n-1);
+    for(int i = 0; i < n-1; i++){
+	times_EM[i] = i*dt;
     }
-    vector_r.shrink_to_fit();
-    
-    for (int i = 0; i < n; i++){
-	r.push_back(std::sqrt(std::pow(vector_r[i][0],2)+std::pow(vector_r[i][1],2)+std::pow(vector_r[i][2],2)));
-    }
-    r.shrink_to_fit();
-    
-    for (int i = 0; i < n-1; i++){ 
-	vector_delta_r.push_back({vector_r[i+1][0]-vector_r[i][0],vector_r[i+1][1]-vector_r[i][1],vector_r[i+1][2]-vector_r[i][2]});
-    }
-    vector_delta_r.shrink_to_fit();
-
-    for (int i = 0; i < n-1; i++){
-	delta_r.push_back(std::sqrt(std::pow(vector_delta_r[i][0],2)+std::pow(vector_delta_r[i][1],2)+std::pow(vector_delta_r[i][2],2)));
-    }
-    delta_r.shrink_to_fit();
-
-    //we use the triangles with sides |r(t)| |r(t+dt)| and |delta_r|
-    //the area is 1/2*|r(t)|*|delta_r|*cos(alpha/2), where alpha is the angle between
-    //r(t) and r(t+dt): dt is 100s, so the angle is REALLY small at this scale, so cos(alpha/2) = 1 and
-    //dA/dt = (1/2*|r(t)|*|delta_r|)/dt
-
-    std::vector<double> areal_velocity; 
-    for (int i = 0; i < n-1; i++){
-	areal_velocity.push_back(0.5*r[i]*delta_r[i]/dt);
-    }
-    areal_velocity.shrink_to_fit();
-    return areal_velocity;
+    //now we graph!
+    TCanvas* cSE = new TCanvas("cSE","sun earth",1200,800);
+    TGraph* gSE = new TGraph(areal_SE.size(),times_SE.data(),areal_SE.data());
+    cSE->cd();
+    gSE->SetMarkerStyle(1);
+    gSE->SetTitle("Areal velocity vs time, Sun Earth system;t[s];#frac{dA}{dt}[m^{2}/s]");
+    gSE->GetHistogram()->SetMinimum(2226.68917e12); //sets y axis limits
+    gSE->GetHistogram()->SetMaximum(2226.689173650e12);
+    gSE->Draw("AP");
+    TCanvas* cEM = new TCanvas("cEM","earth moon",1200,800);
+    TGraph* gEM = new TGraph(areal_EM.size(),times_EM.data(),areal_EM.data());
+    cEM->cd(); 
+    gEM->SetMarkerStyle(1);
+    gEM->SetTitle("Areal velocity vs time, Earth Moon system;t[s];#frac{dA}{dt}[m^{2}/s]");
+    gEM->GetHistogram()->SetMinimum(196.775346876e9);
+    gEM->GetHistogram()->SetMaximum(196.77534719e9);
+    gEM->Draw("AP");
 }
+
+
+std::vector<double> areal_velocity(std::vector<std::vector<double>> vector_r, double dt){
+    //this function calculates the areal velocity of the orbit as a function of time
+    // areal_velocity[i] = dA/dt(t=i*dt)
+    
+    //the vector r is the position vector of the equivalent body 
+    //with respect to the center of rotation (i.e the focus of the ellipse)
+    //We compute dA as a triangle with sides |r(t)| |r(t+dt)-r(t)| and |r(t+dt)|
+    //the area is 1/2 |r(t) x r(t+dt)|, where x denotes the cross product.
+
+    //we calculate the cross product, halve it and divide it by dt
+    const unsigned int n = vector_r.size();
+    std::vector<std::vector<double>> vector_cross(n-1, std::vector<double>(3)); //this declares the sizes
+    std::vector<double> result(n-1); // 1/2*|vector_cross|/dt
+    for(int i = 0; i < n-1; i++){	//we can calculate r(t+dt) up until t = steps*(dt-1)
+	// (a0, a1, a2) x (b0, b1, b2) = (a1*b2 - a2*b1, a2*b0 - a0*b2, a0*b1 - a1*b0);
+	// a = vector_r[i], b = vector_r[i+1]
+	vector_cross[i] = {vector_r[i][1]*vector_r[i+1][2] - vector_r[i][2]*vector_r[i+1][1],vector_r[i][2]*vector_r[i+1][0] - vector_r[i][0]*vector_r[i+1][2],vector_r[i][0]*vector_r[i+1][1] - vector_r[i][1]*vector_r[i+1][0]};
+	result[i] = 0.5*std::sqrt(std::pow(vector_cross[i][0],2)+std::pow(vector_cross[i][1],2)+std::pow(vector_cross[i][2],2))/dt;
+    }
+    return result;
+}
+
