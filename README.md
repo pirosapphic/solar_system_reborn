@@ -22,11 +22,28 @@ If the project becomes too complex to use Make, CMake will be used
 in order to automatize the Make file generation used to build the executables (.out).
 ## How to use
 Firstly, you need to clone this repository with the command
-<code>git clone https://www.github.com/0universe0/solar_system</code>. 
-Then you can compile the binaries with <code>make</code>.
 
-As of now the only presets allowed are the ones regarding two bodies, choose your preferred preset and give it a shot!
-You can choose between different presets by running the executable ./bin/main
-Then you can see the outcome of calculated data by running the following command:
-<code>root ./root/two_bodies_graphic.cpp<code>
+<code>git clone https://www.github.com/0universe0/solar_system</code>. 
+
+### n(=2) body simulator
+To access the main simulator, you need to compile the code and libraries by running
+
+<code>make</code>
+
+in the main directory, you can then execute the binary <code>./bin/main</code> to access the simulator:
+Note that, for now, only the 2 body simulations are implemented.
+
+To visualize the simulated orbits you can execute the root macro <code>two_bodies_graphic()</code> with
+
+<code>root ./root/two_bodies_graphic.cpp</code>
+
+### Second Kepler law of planetary motion
+To verify the second law, you can execute the specific root macro with
+
+<code>root ./root/second_kepler.cpp<code>
+
+that will display that the areal velocity of closed orbits is constant over time (simulating the Earth-Sun and Moon-Earth systems).
+
+### Third Kepler law of planetary motion
+
 [To be continued...]
