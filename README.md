@@ -40,10 +40,10 @@ To visualize the simulated orbits you can execute the root macro <code>two_bodie
 ### Second Kepler law of planetary motion
 To verify the second law, you can execute the specific root macro with
 
-<code>root ./root/second_kepler.cpp<code>
+<code>root ./root/second_kepler.cpp</code>
 
 that will display that the areal velocity of closed orbits is constant over time (simulating the Earth-Sun and Moon-Earth systems).
 
 ### Third Kepler law of planetary motion
-
+Still needs to be implemented...
 [To be continued...]
