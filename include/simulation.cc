@@ -20,6 +20,7 @@ void customSettings(std::vector<CelestialBody*>& bodies){
 	std::cout<<"Body "<<i+1<<std::endl;
 	std::cout<<"  - 0) Sun\n  - 1) Mercury\n  - 2) Venus\n  - 3) Earth\n  - 4) Moon\n  - 5) Mars\n  - 6) Jupiter\n  - 7) Saturn\n  - 8) Uranus\n  - 9) Neptune\n  - 10) Custom body\n";
 	unsigned int planet;
+	std::cout<<"NOTE: you should insert the bodies in reverse order of orbit radius for the visualizer to work correctly\n";
 	std::cout<<"Please choose one of the bodies listed above: ";
 	std::cin>>planet;
 	if (planet<10){
@@ -112,7 +113,7 @@ void setInitialConditions(std::vector<CelestialBody*>& bodies){
     }
     else if (input == 4){
 	bodies = list_of_planets; //in order of distance from the sun,
-    }				 	  //but with the moon between earth and mars: see planets.h
+    }				  //but with the moon between earth and mars: see planets.h
     else if (input == 5){
 	customSettings(bodies);
     }
@@ -169,7 +170,8 @@ void twoBodiesSimulation(CelestialBody& p1, CelestialBody& p2, double totalt, do
     }
     out_file.close();
     std::cout<<"Successfully simulated the motion of the bodies "<<p1.getName()<<" and "<<p2.getName()<<std::endl;
-    std::cout<<"The simulated data is stored by columns (x,y,z) in "<<output_file<<"\nNumber of iterations: "<<steps<<std::endl;
+    std::cout<<"Number of iterations: "<<steps<<std::endl;
+    std::cout<<"The simulated data is stored by columns (x,y,z) in "<<output_file<<"; to visualize it, you can run the root macro with\nroot ./root/two_bodies_graphic.cpp\n";
 }
 
 void nBodiesSimulation(std::vector<CelestialBody*>& bodies, double totalt, double dt, std::string output_file){

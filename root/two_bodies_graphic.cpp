@@ -22,6 +22,6 @@ void two_bodies_graphic(){
     TCanvas* canTOT = new TCanvas("total","orbits",1200,800);
     canTOT->cd();
     g_p2->SetTitle("Two Bodies system;x[m];y[m];z[m]");
-    g_p2->Draw("P");		//draw the bigger orbit first!!!!!!
+    g_p2->Draw("P");		//draw the bigger orbit first! need to find a way to do this automatically...
     g_p1->Draw("P same");
 }
