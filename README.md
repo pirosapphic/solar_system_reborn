@@ -33,7 +33,7 @@ To access the main simulator, you need to compile the code and libraries by runn
 in the main directory, you can then execute the binary <code>./bin/main</code> to access the simulator:
 Note that, for now, only the 2 body simulations are implemented.
 
-To visualize the simulated orbits you can execute the root macro <code>two_bodies_graphic()</code> with
+To visualize the simulated orbits you can execute the specific root macro with
 
 <code>root ./root/two_bodies_graphic.cpp</code>
 
