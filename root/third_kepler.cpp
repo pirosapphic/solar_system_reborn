@@ -27,6 +27,8 @@ std::vector<double> orbitResults(std::vector<std::vector<double>> vector_r, doub
 
 void third_kepler(){
     Planets planets;
+    const double G = 6.67259e-11;
+    const double PI = 3.141592653589793; //written by ale
     //------------------------------------------------------
     //EARTH MOON SYSTEM
     CelestialBody* earth = new CelestialBody(*planets.earth);
@@ -43,7 +45,8 @@ void third_kepler(){
     vector_r.shrink_to_fit();
     std::cout<<"Earth moon results\n";
     std::cout<<"a = "<<results[0]<<"m\nT = "<<results[1]<<"s\n";
-    std::cout<<"k = "<< std::pow(results[1],2)/std::pow(results[0],3)<<std::endl;
+    std::cout<<"k_simul = "<< std::pow(results[1],2)/std::pow(results[0],3)<<std::endl;
+    std::cout<<"k_calc = "<< 4*PI*PI/G/(moon->getMass()+earth->getMass())<<std::endl<<std::endl;
     results.clear();
     results.shrink_to_fit();
     //------------------------------------------------------
@@ -62,7 +65,8 @@ void third_kepler(){
     vector_r.shrink_to_fit();
     std::cout<<"Sun Earth results\n";
     std::cout<<"a = "<<results[0]<<"m\nT = "<<results[1]<<"s\n";
-    std::cout<<"k = "<< std::pow(results[1],2)/std::pow(results[0],3)<<std::endl;
+    std::cout<<"k_simul = "<< std::pow(results[1],2)/std::pow(results[0],3)<<std::endl;
+    std::cout<<"k_calc = "<< 4*PI*PI/G/(sun->getMass()+earth->getMass())<<std::endl<<std::endl;
     results.clear();
     results.shrink_to_fit();
 
@@ -82,7 +86,8 @@ void third_kepler(){
     vector_r.shrink_to_fit();
     std::cout<<"Sun Venus results\n";
     std::cout<<"a = "<<results[0]<<"m\nT = "<<results[1]<<"s\n";
-    std::cout<<"k = "<< std::pow(results[1],2)/std::pow(results[0],3)<<std::endl;
+    std::cout<<"k_simul = "<< std::pow(results[1],2)/std::pow(results[0],3)<<std::endl;
+    std::cout<<"k_calc = "<< 4*PI*PI/G/(sun->getMass()+venus->getMass())<<std::endl<<std::endl;
     results.clear();
     results.shrink_to_fit();
 
@@ -102,28 +107,11 @@ void third_kepler(){
     vector_r.shrink_to_fit();
     std::cout<<"Sun Jupiter results\n";
     std::cout<<"a = "<<results[0]<<"m\nT = "<<results[1]<<"s\n";
-    std::cout<<"k = "<< std::pow(results[1],2)/std::pow(results[0],3)<<std::endl;
+    std::cout<<"k_simul = "<< std::pow(results[1],2)/std::pow(results[0],3)<<std::endl;
+    std::cout<<"k_calc = "<< 4*PI*PI/G/(sun->getMass()+jupiter->getMass())<<std::endl<<std::endl;
+; 
     results.clear();
     results.shrink_to_fit();
-//------------------------------------------------------
-    //now we graph!
-    /*
-    TCanvas* cSE = new TCanvas("cSE","sun earth",1200,800);
-    TGraph* gSE = new TGraph(areal_SE.size(),times_SE.data(),areal_SE.data());
-    cSE->cd();
-    gSE->SetMarkerStyle(1);
-    gSE->SetTitle("Areal velocity vs time, Sun Earth system;t[s];#frac{dA}{dt}[m^{2}/s]");
-    gSE->GetHistogram()->SetMinimum(2226.68917e12); //sets y axis limits
-    gSE->GetHistogram()->SetMaximum(2226.689173650e12);
-    gSE->Draw("AP");
-    TCanvas* cEM = new TCanvas("cEM","earth moon",1200,800);
-    TGraph* gEM = new TGraph(areal_EM.size(),times_EM.data(),areal_EM.data());
-    cEM->cd(); 
-    gEM->SetMarkerStyle(1);
-    gEM->SetTitle("Areal velocity vs time, Earth Moon system;t[s];#frac{dA}{dt}[m^{2}/s]");
-    gEM->GetHistogram()->SetMinimum(196.775346876e9);
-    gEM->GetHistogram()->SetMaximum(196.77534719e9);
-    gEM->Draw("AP");*/
 }
 
 std::vector<double> orbitResults(std::vector<std::vector<double>> vector_r,double dt){
@@ -132,12 +120,15 @@ std::vector<double> orbitResults(std::vector<std::vector<double>> vector_r,doubl
     for (int i = 0; i < n; i++){
 	r_sq[i] = std::pow(vector_r[i][0],2)+std::pow(vector_r[i][1],2)+std::pow(vector_r[i][2],2);
     }
-    auto max = std::max_element(r_sq.begin(), r_sq.end()); //this is a std::vector::iterator (whatever that means...)!!!!!!!!!!!!!!!!!!!!!!!!
+    // we find the maximum and minimum of the distances.
+    // See the example at https://en.cppreference.com/w/cpp/algorithm/max_element.html 
+    auto max = std::max_element(r_sq.begin(), r_sq.end()); //this is a std::vector<double>::iterator (whatever that means...)!!!!!!!!!!!!!!!!!!!!!!!!
     auto min = std::min_element(r_sq.begin(), r_sq.end());
     //we calculate the major semiaxis as (r_min + r_max)/2
-    double r_max = std::sqrt(*max);
+    double r_max = std::sqrt(*max); //max points to the maximum value
     double r_min = std::sqrt(*min);
     double a = 0.5*(r_max + r_min); //major semiaxis
+
     // we then calculate the period as 2 times the time distance between r_max and r_min
     double t_max = dt*std::distance(r_sq.begin(),max); //this std::distance returns the index of the maximum element
     double t_min = dt*std::distance(r_sq.begin(),min);

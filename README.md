@@ -45,5 +45,10 @@ To verify the second law, you can execute the specific root macro with
 that will display that the areal velocity of closed orbits is constant over time (simulating the Earth-Sun and Moon-Earth systems).
 
 ### Third Kepler law of planetary motion
-Still needs to be implemented...
+To verify the third law, you can execute the specific root macro with
+
+<code>root ./root/third_kepler.cpp</code>
+
+that will simulate the major semiaxis a and the period T of some orbits (Moon-Earth, Earth-Sun, Venus-Sun, Jupiter-Sun) and calculate 
+the proportinality constant k between T^2 and a^3; this is compared to the theoretical value given by calculations with Newton's Law.
 [To be continued...]
