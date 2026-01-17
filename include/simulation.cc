@@ -20,6 +20,7 @@ void customSettings(std::vector<CelestialBody*>& bodies){
 	std::cout<<"Body "<<i+1<<std::endl;
 	std::cout<<"  - 0) Sun\n  - 1) Mercury\n  - 2) Venus\n  - 3) Earth\n  - 4) Moon\n  - 5) Mars\n  - 6) Jupiter\n  - 7) Saturn\n  - 8) Uranus\n  - 9) Neptune\n  - 10) Custom body\n";
 	unsigned int planet;
+	std::cout<<"NOTE: you should insert the bodies in reverse order of orbit radius for the visualizer to work correctly\n";
 	std::cout<<"Please choose one of the bodies listed above: ";
 	std::cin>>planet;
 	if (planet<10){
@@ -112,11 +113,34 @@ void setInitialConditions(std::vector<CelestialBody*>& bodies){
     }
     else if (input == 4){
 	bodies = list_of_planets; //in order of distance from the sun,
-    }				 	  //but with the moon between earth and mars: see planets.h
+    }				  //but with the moon between earth and mars: see planets.h
     else if (input == 5){
 	customSettings(bodies);
     }
+    bodies.shrink_to_fit();
+}
 
+std::vector<std::vector<double>> equivalentBodySimulation(CelestialBody& p1, CelestialBody& p2, double totalt, double dt){
+    //this function simulates the motion of the equivalent body with the reduced mass \mu
+    //and returns a vector of vectors so that pos[i] is the position vector of the body at t=i*dt
+    //unlike twoBodiesSimulation, this function does not modify the members of
+    //p1 and p2, besides putting them in their COM reference frame.
+    //used to verify kepler's laws
+    unsigned int steps = totalt/dt;
+    std::vector<std::vector<double>> pos(steps, std::vector<double>(3));
+    changeToCOM(p1,p2); //probably do not need this, as I do not need to convert
+			  //back to p1 and p2
+    CelestialBody* equivalent = new CelestialBody;
+    *equivalent = toEquivalentBody(p1,p2);
+    std::vector<double> acceleration;
+    for (int i = 0; i < steps; i++){
+	pos[i] = equivalent->getPos();
+	acceleration = gravityAcceleration(*equivalent, p1.getMass(),p2.getMass());
+	equivalent->updateVel(acceleration,dt);
+	equivalent->updatePos(dt);
+    }
+    pos.shrink_to_fit();
+    return pos;
 }
 
 
@@ -125,8 +149,8 @@ void twoBodiesSimulation(CelestialBody& p1, CelestialBody& p2, double totalt, do
     //it is called in nBodiesSimulation for n==2
     //output_file should be in the form "path/to/output.csv"
     unsigned int steps = totalt/dt;
-    std::vector<std::vector<double>> pos1;
-    std::vector<std::vector<double>> pos2;
+    std::vector<std::vector<double>> pos1(steps, std::vector<double>(3));
+    std::vector<std::vector<double>> pos2(steps, std::vector<double>(3));
     //the first index is the time step, so that pos1[i] is the position vector of p1 @ t=i*dt
     
     changeToCOM(p1,p2);
@@ -136,8 +160,8 @@ void twoBodiesSimulation(CelestialBody& p1, CelestialBody& p2, double totalt, do
     std::ofstream out_file(output_file); //to export data
     out_file<<"#x1,y1,z1,x2,y2,z2"<<std::endl; //header of the csv file
     for (int i = 0; i< steps; i++){
-	pos1.push_back(p1.getPos());
-	pos2.push_back(p2.getPos());
+	pos1[i] = p1.getPos();
+	pos2[i] = p2.getPos();
 	acceleration = gravityAcceleration(*equivalent,p1.getMass(),p2.getMass());
 	equivalent->updateVel(acceleration,dt);
 	equivalent->updatePos(dt);
@@ -146,7 +170,8 @@ void twoBodiesSimulation(CelestialBody& p1, CelestialBody& p2, double totalt, do
     }
     out_file.close();
     std::cout<<"Successfully simulated the motion of the bodies "<<p1.getName()<<" and "<<p2.getName()<<std::endl;
-    std::cout<<"The simulated data is stored by columns (x,y,z) in csv/output.csv\nNumber of iterations: "<<steps<<std::endl;
+    std::cout<<"Number of iterations: "<<steps<<std::endl;
+    std::cout<<"The simulated data is stored by columns (x,y,z) in "<<output_file<<"; to visualize it, you can run the root macro with\nroot ./root/two_bodies_graphic.cpp\n";
 }
 
 void nBodiesSimulation(std::vector<CelestialBody*>& bodies, double totalt, double dt, std::string output_file){
