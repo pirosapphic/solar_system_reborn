@@ -31,9 +31,7 @@ in the main directory, you can then execute the binary <code>./bin/main</code> t
 Note that, for now, only the 2 body simulations are implemented.
 
 To visualize the simulated orbits you can execute the specific root macro with
-
 <code>root ./root/twoBodiesGraphic.cpp</code>
-
 ### Second Kepler law of planetary motion
 To verify the second law, you can execute the specific root macro with
 <code>root ./root/secondKepler.cpp</code>
