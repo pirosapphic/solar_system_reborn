@@ -20,11 +20,13 @@
 //The motions considered are the orbit of the moon around the earth and the
 //orbit of the earth around the sun.
 //
-//Note that it is the equivalent body with reduced mass
+//Note that we will use the motion of the equivalent body
 
-std::vector<double> areal_velocity(std::vector<std::vector<double>> vector_r, double dt);
+std::vector<double> arealVelocity(std::vector<std::vector<double>> vector_r, double dt); //implemented below
 
-void second_kepler(){
+void secondKepler(){
+    std::cout<<"Welcome to the simulator for the second Kepler law\n\n";
+    std::cout<<"This will simulate the motion of the Earth around the Sun and of the Moon around the Earth\nIt will then calculate the areal velocity dA/dt as a function of time and show that it is constant.\n\n";
     Planets planets;
     //------------------------------------------------------
     //EARTH SUN SYSTEM
@@ -35,16 +37,15 @@ void second_kepler(){
     double dt = 100.;		//3e5 iterations
     std::cout<<"Simulating sun and earth\n";
     std::vector<std::vector<double>> vector_r = equivalentBodySimulation(*sun, *earth, totalt, dt);
-    std::cout<<"Successfully simulated sun and earth\n";
+    std::cout<<"Successfully simulated sun and earth\n\n";
     unsigned int n = vector_r.size();
     delete earth;	//to initialize it later
     delete sun;		//to free memory
-    std::cout<<"Now calculating dA/dt\n";
-    std::vector<double> areal_SE = areal_velocity(vector_r,dt);
+    std::vector<double> areal_SE = arealVelocity(vector_r, dt);
     vector_r.clear(); //to reuse it
     std::vector<double> times_SE(n-1);
-    for(int i = 0; i < n-1; i++){
-	times_SE[i] = i*dt;
+    for(int i = 0; i < n - 1; i++){
+	times_SE[i] = i * dt;
     }
     //------------------------------------------------------
     //EARTH MOON SYSTEM
@@ -59,12 +60,11 @@ void second_kepler(){
     n = vector_r.size();
     delete earth;	//to initialize it later
     delete moon;		//to free memory
-    std::cout<<"Now calculating dA/dt\n";
-    std::vector<double> areal_EM = areal_velocity(vector_r,dt);
+    std::vector<double> areal_EM = arealVelocity(vector_r,dt);
     vector_r.clear();
     std::vector<double> times_EM(n-1);
-    for(int i = 0; i < n-1; i++){
-	times_EM[i] = i*dt;
+    for(int i = 0; i < n - 1; i++){
+	times_EM[i] = i * dt;
     }
     //now we graph!
     TCanvas* cSE = new TCanvas("cSE","sun earth",1200,800);
@@ -86,24 +86,24 @@ void second_kepler(){
 }
 
 
-std::vector<double> areal_velocity(std::vector<std::vector<double>> vector_r, double dt){
+std::vector<double> arealVelocity(std::vector<std::vector<double>> vector_r, double dt){
     //this function calculates the areal velocity of the orbit as a function of time
-    // areal_velocity[i] = dA/dt(t=i*dt)
+    // areal_velocity[i] = dA/dt@(t=i*dt)
     
     //the vector r is the position vector of the equivalent body 
     //with respect to the center of rotation (i.e the focus of the ellipse)
     //We compute dA as a triangle with sides |r(t)| |r(t+dt)-r(t)| and |r(t+dt)|
-    //the area is 1/2 |r(t) x r(t+dt)|, where x denotes the cross product.
+    //the area is dA = 1/2 |r(t) x r(t+dt)|, where x denotes the cross product.
 
     //we calculate the cross product, halve it and divide it by dt
     const unsigned int n = vector_r.size();
     std::vector<std::vector<double>> vector_cross(n-1, std::vector<double>(3)); //this declares the sizes
     std::vector<double> result(n-1); // 1/2*|vector_cross|/dt
-    for(int i = 0; i < n-1; i++){	//we can calculate r(t+dt) up until t = steps*(dt-1)
+    for(int i = 0; i < n - 1; i++){	//we can calculate r(t+dt) up until t = steps*(dt-1)
 	// (a0, a1, a2) x (b0, b1, b2) = (a1*b2 - a2*b1, a2*b0 - a0*b2, a0*b1 - a1*b0);
 	// a = vector_r[i], b = vector_r[i+1]
-	vector_cross[i] = {vector_r[i][1]*vector_r[i+1][2] - vector_r[i][2]*vector_r[i+1][1],vector_r[i][2]*vector_r[i+1][0] - vector_r[i][0]*vector_r[i+1][2],vector_r[i][0]*vector_r[i+1][1] - vector_r[i][1]*vector_r[i+1][0]};
-	result[i] = 0.5*std::sqrt(std::pow(vector_cross[i][0],2)+std::pow(vector_cross[i][1],2)+std::pow(vector_cross[i][2],2))/dt;
+	vector_cross[i] = {vector_r[i][1] * vector_r[i+1][2] - vector_r[i][2] * vector_r[i+1][1], vector_r[i][2] * vector_r[i+1][0] - vector_r[i][0] * vector_r[i+1][2], vector_r[i][0] * vector_r[i+1][1] - vector_r[i][1] * vector_r[i+1][0]}; //this is a bit unreadable, it is the same as the comment 2 lines above.
+	result[i] = 0.5 * std::sqrt(std::pow(vector_cross[i][0],2) + std::pow(vector_cross[i][1],2) + std::pow(vector_cross[i][2],2)) / dt;
     }
     return result;
 }

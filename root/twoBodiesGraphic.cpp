@@ -4,7 +4,7 @@
 #include<vector>
 #include"../include/csvconverter.h"
 
-void two_bodies_graphic(){
+void twoBodiesGraphic(){
     std::vector<std::vector<double>> data = csvReaderToDouble("./csv/output.csv",1);
     //unpacking data
     std::vector<double> x1 = data[0];

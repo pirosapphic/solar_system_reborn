@@ -91,44 +91,4 @@ class CelestialBody {
         std::vector<double> m_pos;
         std::vector<double> m_vel;
 };
-
-class Star: public CelestialBody{
-  public:
-    void printInfo();
-    void updatePos(double dt);
-    void updateVel(double ax, double ay, double az, double dt);
-    void updateVel(std::vector<double> acc, double dt);
-    
-    Star();
-    Star(std::string name, double mass, double x, double y, double z, double vx, double vy, double vz); //default constructor
-    Star(std::string name, double mass, std::vector<double> pos, std::vector<double> vel); //array constructor
-    ~Star();
-};
-
-class Planet: public CelestialBody{
-  public:
-    void printInfo();
-    void updatePos(double dt);
-    void updateVel(double ax, double ay, double az, double dt);
-    void updateVel(std::vector<double> acc, double dt);
-    
-    Planet();
-    Planet(std::string name, double mass, double x, double y, double z, double vx, double vy, double vz); //default constructor
-    Planet(std::string name, double mass, std::vector<double> pos, std::vector<double> vel); //array constructor
-    ~Planet();
-};
-
-
-class Moon: public CelestialBody{
-  public:
-    void printInfo();
-    void updatePos(double dt);
-    void updateVel(double ax, double ay, double az, double dt);
-    void updateVel(std::vector<double> acc, double dt);
-    
-    Moon();
-    Moon(std::string name, double mass, double x, double y, double z, double vx, double vy, double vz); //default constructor
-    Moon(std::string name, double mass, std::vector<double> pos, std::vector<double> vel); //array constructor
-    ~Moon();
-};
 #endif
