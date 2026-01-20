@@ -177,5 +177,3 @@ void CelestialBody::updateVel(std::vector<double> acc, double dt){
         m_vel[i] += acc[i]*dt;
     }
 }
-    
-

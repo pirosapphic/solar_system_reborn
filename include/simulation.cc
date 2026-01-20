@@ -126,7 +126,7 @@ std::vector<std::vector<double>> equivalentBodySimulation(CelestialBody& p1, Cel
     //unlike twoBodiesSimulation, this function does not modify the members of
     //p1 and p2, besides putting them in their COM reference frame.
     //used to verify kepler's laws
-    unsigned int steps = totalt/dt;
+    unsigned int steps = totalt / dt;
     std::vector<std::vector<double>> pos(steps, std::vector<double>(3));
     changeToCOM(p1,p2); //probably do not need this, as I do not need to convert
 			  //back to p1 and p2
@@ -147,7 +147,7 @@ std::vector<std::vector<double>> equivalentBodySimulation(CelestialBody& p1, Cel
 void twoBodiesSimulation(CelestialBody& p1, CelestialBody& p2, double totalt, double dt, std::string output_file){
     //this is the two body simulator, implemented separately from the n-body for efficiency
     //it is called in nBodiesSimulation for n==2
-    //output_file should be in the form "path/to/output.csv"
+    //std::string output_file should be in the form "relative/path/to/output.csv"
     unsigned int steps = totalt/dt;
     std::vector<std::vector<double>> pos1(steps, std::vector<double>(3));
     std::vector<std::vector<double>> pos2(steps, std::vector<double>(3));
@@ -176,7 +176,7 @@ void twoBodiesSimulation(CelestialBody& p1, CelestialBody& p2, double totalt, do
 
 void nBodiesSimulation(std::vector<CelestialBody*>& bodies, double totalt, double dt, std::string output_file){
     //n body simulator
-    //output_file should be in the form "path/to/output.csv"
+    //std::string output_file should be in the form "relative/path/to/output.csv"
     
     //"Lasciate ogni speranza, voi ch'entrate"
     if(bodies.size() == 2) twoBodiesSimulation(*bodies[0], *bodies[1], totalt, dt, output_file);

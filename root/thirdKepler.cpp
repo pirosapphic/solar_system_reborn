@@ -26,7 +26,7 @@ std::vector<double> orbitResults(std::vector<std::vector<double>> vector_r, doub
 //orbitResults[1] = T (period)
 //implemented below
 
-void third_kepler(){
+void thirdKepler(){
     std::cout<<"Welcome to the simulator for the third Kepler law\n\n";
     std::cout<<"This will simulate the motion of these binary systems:\n";
     std::cout<<"  - Earth Moon\n";
@@ -34,7 +34,7 @@ void third_kepler(){
     std::cout<<"  - Sun Venus\n";
     std::cout<<"  - Sun Jupiter\n";
     std::cout<<"It will then calculate the period T, the major semiaxis a and the constant k = T^2/a^3.\n";
-    std::cout<<"The simulated values of k will then be compared to the theoretical value\nk_calc=4pi^2/[G*(M+m)]\n(where m, M are the masses of the bodies and G is the gravitational constant), predicted by Newton's law of gravitation.\nThis will highlight the fact that more massive planets have smaller values of k.\n\n";
+    std::cout<<"The simulated values of k will then be compared to the theoretical value\nk_calc=4pi^2/[G*(M+m)]\n(where m, M are the masses of the bodies and G is the gravitational constant), predicted by Newton's law of gravitation.\nThis will highlight not only that the constant depends on the bigger body in the system, but also that more massive planets have smaller values of k.\n\n";
     Planets planets;
     const double G = 6.67259e-11;
     const double PI = 3.141592653589793; //written by ale
@@ -54,8 +54,8 @@ void third_kepler(){
     vector_r.shrink_to_fit();
     std::cout<<"\nEarth and Moon results:\n";
     //std::cout<<"a = "<<results[0]<<"m\nT = "<<results[1]<<"s\n";
-    std::cout<<"k_simul = "<< std::pow(results[1],2)/std::pow(results[0],3)<<std::endl;
-    std::cout<<"k_calc = "<< 4*PI*PI/G/(moon->getMass()+earth->getMass())<<std::endl<<std::endl;
+    std::cout<<"k_simul = "<< std::pow(results[1],2) / std::pow(results[0],3)<<std::endl;
+    std::cout<<"k_calc = "<< 4 * PI * PI / G / (moon->getMass() + earth->getMass())<<std::endl<<std::endl;
     results.clear();
     results.shrink_to_fit();
     //------------------------------------------------------
@@ -74,8 +74,8 @@ void third_kepler(){
     vector_r.shrink_to_fit();
     std::cout<<"\nSun and Earth results\n";
     //std::cout<<"a = "<<results[0]<<"m\nT = "<<results[1]<<"s\n";
-    std::cout<<"k_simul = "<< std::pow(results[1],2)/std::pow(results[0],3)<<std::endl;
-    std::cout<<"k_calc = "<< 4*PI*PI/G/(sun->getMass()+earth->getMass())<<std::endl<<std::endl;
+    std::cout<<"k_simul = "<< std::pow(results[1],2) / std::pow(results[0],3)<<std::endl;
+    std::cout<<"k_calc = "<< 4 * PI * PI / G / (sun->getMass()+earth->getMass())<<std::endl<<std::endl;
     results.clear();
     results.shrink_to_fit();
 
@@ -95,13 +95,13 @@ void third_kepler(){
     vector_r.shrink_to_fit();
     std::cout<<"\nSun and Venus results\n";
     //std::cout<<"a = "<<results[0]<<"m\nT = "<<results[1]<<"s\n";
-    std::cout<<"k_simul = "<< std::pow(results[1],2)/std::pow(results[0],3)<<std::endl;
-    std::cout<<"k_calc = "<< 4*PI*PI/G/(sun->getMass()+venus->getMass())<<std::endl<<std::endl;
+    std::cout<<"k_simul = "<< std::pow(results[1],2) / std::pow(results[0],3)<<std::endl;
+    std::cout<<"k_calc = "<< 4 * PI * PI / G / (sun->getMass() + venus->getMass())<<std::endl<<std::endl;
     results.clear();
     results.shrink_to_fit();
 
     //------------------------------------------------------
-    //SUN VENUS SYSTEM
+    //SUN JUPITER SYSTEM
     CelestialBody* jupiter = new CelestialBody(*planets.jupiter);
     sun = new CelestialBody(*planets.sun);
     totalt = 3.8e8; 	//> period
@@ -116,33 +116,33 @@ void third_kepler(){
     vector_r.shrink_to_fit();
     std::cout<<"\nSun and Jupiter results\n";
     //std::cout<<"a = "<<results[0]<<"m\nT = "<<results[1]<<"s\n";
-    std::cout<<"k_simul = "<< std::pow(results[1],2)/std::pow(results[0],3)<<std::endl;
-    std::cout<<"k_calc = "<< 4*PI*PI/G/(sun->getMass()+jupiter->getMass())<<std::endl<<std::endl;
+    std::cout<<"k_simul = "<< std::pow(results[1],2) / std::pow(results[0],3)<<std::endl;
+    std::cout<<"k_calc = "<< 4 * PI * PI / G / (sun->getMass() + jupiter->getMass())<<std::endl<<std::endl;
 ; 
     results.clear();
     results.shrink_to_fit();
 }
 
 std::vector<double> orbitResults(std::vector<std::vector<double>> vector_r,double dt){
-    //calculates the period T and the major semiaxis a of the orbital data in
-    //vector_r and returns {a,T}
+    //calculates the period T and the major semiaxis a of the orbital data 
+    //stored in vector_r and returns {a,T}.
     unsigned int n = vector_r.size();
     std::vector<double> r_sq(n); // |vector_r|^2, to avoid calculating 2e5 sqrts 
     for (int i = 0; i < n; i++){
-	r_sq[i] = std::pow(vector_r[i][0],2)+std::pow(vector_r[i][1],2)+std::pow(vector_r[i][2],2);
+	r_sq[i] = std::pow(vector_r[i][0],2) + std::pow(vector_r[i][1],2) + std::pow(vector_r[i][2],2);
     }
     // we find the maximum and minimum of the distances.
-    // See the example at https://en.cppreference.com/w/cpp/algorithm/max_element.html 
-    auto max = std::max_element(r_sq.begin(), r_sq.end()); //this is a std::vector<double>::iterator (whatever that means...)!!!!!!!!!!!!!!!!!!!!!!!!
-    auto min = std::min_element(r_sq.begin(), r_sq.end());
+    // See the example at https://en.cppreference.com/w/cpp/algorithm/max_element.html
+    std::vector<double>::iterator max = std::max_element(r_sq.begin(), r_sq.end());
+    std::vector<double>::iterator min = std::min_element(r_sq.begin(), r_sq.end());
     //we calculate the major semiaxis as (r_min + r_max)/2
-    double r_max = std::sqrt(*max); //max points to the maximum value
-    double r_min = std::sqrt(*min);
-    double a = 0.5*(r_max + r_min); //major semiaxis
+    double r_max = std::sqrt(*max); //the iterator points to the maximum value
+    double r_min = std::sqrt(*min); 
+    double a = 0.5 * (r_max + r_min); //major semiaxis
 
     // we then calculate the period as 2 times the time distance between r_max and r_min
-    double t_max = dt*std::distance(r_sq.begin(),max); //this std::distance returns the index of the maximum element (see the example linked above)
-    double t_min = dt*std::distance(r_sq.begin(),min);
-    double T = 2.*std::abs(t_max-t_min);
+    double t_max = dt * std::distance(r_sq.begin(),max); //this std::distance returns the index of the maximum element (see the example linked above)
+    double t_min = dt * std::distance(r_sq.begin(),min);
+    double T = 2. * std::abs(t_max-t_min);
     return {a,T};
 }
