@@ -112,6 +112,10 @@ std::vector<double> CelestialBody::getVel() {
     return m_vel;
 }
 
+std::vector<double> CelestialBody::getVirtualAcc() {
+    return m_virtual_acc;
+}
+
 // setters
 
 void CelestialBody::setName(std::string new_name) {
@@ -148,6 +152,10 @@ void CelestialBody::setPos(std::vector<double> new_pos) {
 
 void CelestialBody::setVel(std::vector<double> new_vel) {
     m_vel = new_vel;
+}
+
+void CelestialBody::setVirtualAcc(std::vector<double> virtual_acc) {
+    m_virtual_acc = virtual_acc;
 }
 
 

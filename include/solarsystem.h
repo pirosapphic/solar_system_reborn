@@ -56,6 +56,7 @@ class CelestialBody {
         
         std::vector<double> getPos();
         std::vector<double> getVel();
+        std::vector<double> getVirtualAcc();
      
         // setters
         void setName(std::string new_name);
@@ -71,6 +72,7 @@ class CelestialBody {
         
         void setPos(std::vector<double> new_pos); 
         void setVel(std::vector<double> new_vel); 
+        void setVirtualAcc(std::vector<double> virtual_acc);
 
         void updatePos(double dt);
         void updateVel(std::vector<double> acc, double dt);
@@ -90,5 +92,6 @@ class CelestialBody {
 
         std::vector<double> m_pos;
         std::vector<double> m_vel;
+        std::vector<double> m_virtual_acc;
 };
 #endif

@@ -160,13 +160,13 @@ void twoBodiesSimulation(CelestialBody& p1, CelestialBody& p2, double totalt, do
     std::ofstream out_file(output_file); //to export data
     out_file<<"#x1,y1,z1,x2,y2,z2"<<std::endl; //header of the csv file
     for (int i = 0; i< steps; i++){
-	pos1[i] = p1.getPos();
-	pos2[i] = p2.getPos();
-	acceleration = gravityAcceleration(*equivalent,p1.getMass(),p2.getMass());
-	equivalent->updateVel(acceleration,dt);
-	equivalent->updatePos(dt);
-	fromEquivalentBody(*equivalent,p1,p2);
-	out_file<<std::setprecision(15)<<pos1[i][0]<<","<<pos1[i][1]<<","<<pos1[i][2]<<","<<pos2[i][0]<<","<<pos2[i][1]<<","<<pos2[i][2]<<std::endl;
+	    pos1[i] = p1.getPos();
+	    pos2[i] = p2.getPos();
+	    acceleration = gravityAcceleration(*equivalent,p1.getMass(),p2.getMass());
+	    equivalent->updateVel(acceleration,dt);
+	    equivalent->updatePos(dt);
+	    fromEquivalentBody(*equivalent,p1,p2);
+	    out_file<<std::setprecision(15)<<pos1[i][0]<<","<<pos1[i][1]<<","<<pos1[i][2]<<","<<pos2[i][0]<<","<<pos2[i][1]<<","<<pos2[i][2]<<std::endl;
     }
     out_file.close();
     std::cout<<"Successfully simulated the motion of the bodies "<<p1.getName()<<" and "<<p2.getName()<<std::endl;
@@ -177,7 +177,58 @@ void twoBodiesSimulation(CelestialBody& p1, CelestialBody& p2, double totalt, do
 void nBodiesSimulation(std::vector<CelestialBody*>& bodies, double totalt, double dt, std::string output_file){
     //n body simulator
     //std::string output_file should be in the form "relative/path/to/output.csv"
-    
+    double G = 6.67e-11; 
     //"Lasciate ogni speranza, voi ch'entrate"
-    if(bodies.size() == 2) twoBodiesSimulation(*bodies[0], *bodies[1], totalt, dt, output_file);
+    if (bodies.size() == 2) {
+        twoBodiesSimulation(*bodies[0], *bodies[1], totalt, dt, output_file);
+    } else {
+
+        unsigned int steps = totalt / dt;
+        std::ofstream out_file(output_file);
+        out_file << "#n*(x1,y1,z1)";
+// ----------------------------------------------------------------------------------
+    for (int n = 0; n<steps; n++) {    
+        for (int i=0; i<bodies.size(); i++) {
+            std::vector<double> acc;
+            double ax = 0, ay = 0, az = 0;
+            
+            for (int j = 0; j<bodies.size(); j++) {
+                // Need to skip the current body during calculation of acc
+                if (bodies[j] == bodies[i]) {
+                    j++;
+                    continue;
+                }
+                ax += G * (bodies[j]->getMass()) / (bodies[j]->getPos()[0] - bodies[i]->getPos()[0]);
+                ay += G * (bodies[j]->getMass()) / (bodies[j]->getPos()[1] - bodies[i]->getPos()[1]);
+                az += G * (bodies[j]->getMass()) / (bodies[j]->getPos()[2] - bodies[i]->getPos()[2]);
+            }
+
+            // At this point we need to keep record of the calculated acceleration for body i
+            acc.push_back(ax);
+            acc.push_back(ay);
+            acc.push_back(az);
+
+            // Now we store the calculated virtual acceleration into the body's private variable.
+            bodies[i]->setVirtualAcc(acc);          
+        }
+        
+        // Once all calculations are made for the current dt we can start updating pos and vel for each body
+        for (int i = 0; i<bodies.size(); i++) {
+            bodies[i]->updateVel(bodies[i]->getVirtualAcc(), dt);
+            bodies[i]->updatePos(dt);
+            out_file<<std::setprecision(15)<<bodies[i]->getPos()[0]<<","<<bodies[i]->getPos()[1]<<","<<bodies[i]->getPos()[2]<<",";
+        }
+        // last comma could be a problem, in case need to delete last line character
+        out_file<<std::endl;
+    
+    }
+// -------------------------------------------------------------------------------
+        out_file.close();
+
+        std::cout<<"Successfully simulated the motion of the bodies!";
+        std::cout<<"Number of iterations: "<<steps<<std::endl;
+        std::cout<<"The simulated data is stored by columns (x,y,z) in "<<output_file<<"; to visualize it, you can run the root macro with\nroot ./root/n_bodies_graphic.cpp\n";
+
+    }  
+    
 }
