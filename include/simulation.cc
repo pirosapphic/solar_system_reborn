@@ -179,44 +179,51 @@ void nBodiesSimulation(std::vector<CelestialBody*>& bodies, double totalt, doubl
     //std::string output_file should be in the form "relative/path/to/output.csv"
     double G = 6.67e-11; 
     //"Lasciate ogni speranza, voi ch'entrate"
-    if (bodies.size() == 2) {
-        twoBodiesSimulation(*bodies[0], *bodies[1], totalt, dt, output_file);
-    } else {
-
+    //if (bodies.size() == 2) {
+   //     twoBodiesSimulation(*bodies[0], *bodies[1], totalt, dt, output_file);
+   // } else {
+        const int n_bodies = bodies.size();
         unsigned int steps = totalt / dt;
         std::ofstream out_file(output_file);
-        out_file << "#n*(x1,y1,z1)";
+        out_file << "#n*(x1,y1,z1)" << std::endl;
 // ----------------------------------------------------------------------------------
     for (int n = 0; n<steps; n++) {    
-        for (int i=0; i<bodies.size(); i++) {
-            std::vector<double> acc;
-            double ax = 0, ay = 0, az = 0;
-            
-            for (int j = 0; j<bodies.size(); j++) {
+        for (int i=0; i<n_bodies; i++) {
+            std::vector<double> acc(3, 0);
+            //double ax = 0, ay = 0, az = 0;
+            bodies[i]->setVirtualAcc({0.,0.,0.});
+            for (int j = 0; j<n_bodies; j++) {
                 // Need to skip the current body during calculation of acc
                 if (bodies[j] == bodies[i]) {
-                    j++;
                     continue;
                 }
-                ax += G * (bodies[j]->getMass()) / (bodies[j]->getPos()[0] - bodies[i]->getPos()[0]);
-                ay += G * (bodies[j]->getMass()) / (bodies[j]->getPos()[1] - bodies[i]->getPos()[1]);
-                az += G * (bodies[j]->getMass()) / (bodies[j]->getPos()[2] - bodies[i]->getPos()[2]);
+                double distance_cubed = std::pow(bodies[j]->getPos()[0] - bodies[i]->getPos()[0], 2) + std::pow(bodies[j]->getPos()[1] - bodies[i]->getPos()[1], 2) + std::pow(bodies[j]->getPos()[2] - bodies[i]->getPos()[2], 2);
+                //std::cout << std::sqrt(distance_cubed) << std::endl;
+                distance_cubed = std::pow(distance_cubed, 1.5);
+                
+                
+                acc[0] +=  G * (bodies[j]->getMass() * (bodies[j]->getPos()[0] - bodies[i]->getPos()[0]) ) / distance_cubed; 
+                acc[1] +=  G * (bodies[j]->getMass() * (bodies[j]->getPos()[1] - bodies[i]->getPos()[1]) ) / distance_cubed; 
+                acc[2] +=  G * (bodies[j]->getMass() * (bodies[j]->getPos()[2] - bodies[i]->getPos()[2]) ) / distance_cubed; 
+
             }
 
             // At this point we need to keep record of the calculated acceleration for body i
-            acc.push_back(ax);
-            acc.push_back(ay);
-            acc.push_back(az);
-
             // Now we store the calculated virtual acceleration into the body's private variable.
             bodies[i]->setVirtualAcc(acc);          
+
+            //std::cout << bodies[i]->getVirtualAcc()[0] << " ";
+            //std::cout << bodies[i]->getVirtualAcc()[1] << " ";
+            //std::cout << bodies[i]->getVirtualAcc()[2] << std::endl;
         }
         
         // Once all calculations are made for the current dt we can start updating pos and vel for each body
-        for (int i = 0; i<bodies.size(); i++) {
+        for (int i = 0; i<n_bodies; i++) {
+            out_file<<std::setprecision(15)<<bodies[i]->getPos()[0]<<","<<bodies[i]->getPos()[1]<<","<<bodies[i]->getPos()[2]<<",";
             bodies[i]->updateVel(bodies[i]->getVirtualAcc(), dt);
             bodies[i]->updatePos(dt);
-            out_file<<std::setprecision(15)<<bodies[i]->getPos()[0]<<","<<bodies[i]->getPos()[1]<<","<<bodies[i]->getPos()[2]<<",";
+
+
         }
         // last comma could be a problem, in case need to delete last line character
         out_file<<std::endl;
@@ -229,6 +236,6 @@ void nBodiesSimulation(std::vector<CelestialBody*>& bodies, double totalt, doubl
         std::cout<<"Number of iterations: "<<steps<<std::endl;
         std::cout<<"The simulated data is stored by columns (x,y,z) in "<<output_file<<"; to visualize it, you can run the root macro with\nroot ./root/n_bodies_graphic.cpp\n";
 
-    }  
+    //}  
     
 }
