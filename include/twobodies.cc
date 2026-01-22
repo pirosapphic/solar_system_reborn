@@ -64,7 +64,7 @@ std::vector<double> gravityAcceleration(CelestialBody p,double m1, double m2){
     //used to compute the acceleration on the equivalent body p
     //using the nontrivial part of the decoupled Lagrangian
     //m1 and m2 are the masses of the two separate bodies
-    const double G = 6.67259e-11; //SI UNITS!!!
+    const double G = 6.67259e-29; //SI UNITS!!!
     std::vector<double> acceleration(3);
     double distance = 0;
     

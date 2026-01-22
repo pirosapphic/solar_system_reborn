@@ -177,11 +177,11 @@ void twoBodiesSimulation(CelestialBody& p1, CelestialBody& p2, double totalt, do
 void nBodiesSimulation(std::vector<CelestialBody*>& bodies, double totalt, double dt, std::string output_file){
     //n body simulator
     //std::string output_file should be in the form "relative/path/to/output.csv"
-    double G = 6.67e-11; 
+    double G = 6.67e-23; 
     //"Lasciate ogni speranza, voi ch'entrate"
-    //if (bodies.size() == 2) {
+   // if (bodies.size() == 2) {
    //     twoBodiesSimulation(*bodies[0], *bodies[1], totalt, dt, output_file);
-   // } else {
+    //} else {
         const int n_bodies = bodies.size();
         unsigned int steps = totalt / dt;
         std::ofstream out_file(output_file);
@@ -236,6 +236,6 @@ void nBodiesSimulation(std::vector<CelestialBody*>& bodies, double totalt, doubl
         std::cout<<"Number of iterations: "<<steps<<std::endl;
         std::cout<<"The simulated data is stored by columns (x,y,z) in "<<output_file<<"; to visualize it, you can run the root macro with\nroot ./root/n_bodies_graphic.cpp\n";
 
-    //}  
+//    }  
     
 }
