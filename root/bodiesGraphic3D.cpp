@@ -4,12 +4,12 @@
 #include <vector>
 #include"../include/csvconverter.h"
 
-void nBodiesGraphic(){
+void bodiesGraphic3D(){
     std::vector<std::vector<double>> data = csvReaderToDouble("./csv/output.csv",1);
     //unpacking data
-    std::cout << "Data size: " << data.size() << std::endl;
+    std::cout << "Number of iterations: " << data[0].size() << std::endl;
     const int n_bodies = data.size()/3;
-    std::cout << "nbodies: " << n_bodies << std::endl; 
+    std::cout << "Number of Bodies: " << n_bodies << std::endl; 
     std::vector<TGraph2D*> graphs;
     TCanvas* can = new TCanvas("total","orbits",1200,800);
     int counter = data.size() - 1;
@@ -18,8 +18,9 @@ void nBodiesGraphic(){
 	graphs.push_back(dummy);
         counter -= 3;
     }
-    for(int i = 0; i < n_bodies; i++){
-        if(i == 0) graphs[i]->Draw("P");
-        else graphs[i]->Draw("P same");
+    graphs[0]->Draw("P");
+    graphs[0]->SetTitle("3D orbits visualizer;x[m];y[m];z[m]");
+    for(int i = 1; i < n_bodies; i++){
+        graphs[i]->Draw("P same");
     } 
 }

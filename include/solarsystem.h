@@ -4,9 +4,6 @@
 #include <vector>
 #include <string>
 
-//alternatively
-//#pragma once
-//!without endif!
 
 // The following convention is wise to be followed:
 // naming prefix:
@@ -27,15 +24,38 @@
 // 
 // whoever will add "using namespace std" at the start of ANY file will be mocked, bullied, prosecuted and publicly punished by me (0universe0). Have a great time coding ;)
 
+
+
+//In this file we declare the class CelestialBody with its methods,
+//the fundamental part of this project
+
+
+
 class CelestialBody {
 
+    private:
+        std::string m_name;
+        double m_mass;
+
+        double m_x;
+        double m_y;
+        double m_z;
+        double m_vx;
+        double m_vy;
+        double m_vz;
+
+        std::vector<double> m_pos;
+        std::vector<double> m_vel;
+        std::vector<double> m_virtual_acc; //this is used to store the current acceleration in
+					   //the n bodies simulator
+    
     public:
 
         CelestialBody();
 
         CelestialBody(std::string name, double mass, double x, double y, double z, double vx, double vy, double vz); //default constructor
         
-        CelestialBody(std::string name, double mass, std::vector<double> pos, std::vector<double> vel); //array constructor
+        CelestialBody(std::string name, double mass, std::vector<double> pos, std::vector<double> vel); //std::vector constructor
 
         CelestialBody(const CelestialBody& p); //copy constructor
     
@@ -76,22 +96,7 @@ class CelestialBody {
 
         void updatePos(double dt);
         void updateVel(std::vector<double> acc, double dt);
-        void updateVel(double ax, double ay, double az, double dt);
-        void GravitationalForce(double G);
-
-    private:
-        std::string m_name;
-        double m_mass;
-
-        double m_x;
-        double m_y;
-        double m_z;
-        double m_vx;
-        double m_vy;
-        double m_vz;
-
-        std::vector<double> m_pos;
-        std::vector<double> m_vel;
-        std::vector<double> m_virtual_acc;
+        void updateVel(double ax, double ay, double az, double dt); //used only in the previous
+								    //method
 };
 #endif

@@ -25,13 +25,15 @@ Firstly, you need to clone this repository with the command
 
 <code>git clone https://www.github.com/0universe0/solar_system</code>. 
 
-### n(=2) body simulator
+### N body simulator
 To access the main simulator, you need to compile the code and libraries by running <code>make</code>
-in the main directory, you can then execute the binary <code>./bin/main</code> to access the simulator:
-Note that, for now, only the 2 body simulations are implemented.
+in the main directory, you can then execute the binary <code>./bin/main</code> to access the simulator: 
+there you will be prompted with some presets and an option to fully customize the simulation (including custom bodies).
+When the simulator is done, you can visualize the data in two ways:
+* Running the root macro <code>root ./root/bodiesGraphic2D.cpp</code>, that will plot the projection on the XY plane of the orbits.
+* Running the root macro <code>root ./root/bodiesGraphic3D.cpp</code>, that will fully plot the orbits in 3D. 
+NOTE: it is advisable to keep the number of total iterations below 5e6 and the time step below 1e4 seconds.
 
-To visualize the simulated orbits you can execute the specific root macro with
-<code>root ./root/twoBodiesGraphic.cpp</code>
 ### Second Kepler law of planetary motion
 To verify the second law, you can execute the specific root macro with
 <code>root ./root/secondKepler.cpp</code>
@@ -41,5 +43,3 @@ that will show that the areal velocity of closed orbits is constant over time (s
 To verify the third law, you can execute the specific root macro with
 <code>root ./root/thirdKepler.cpp</code>
 that will show that, for closed orbits, T^2 is proportional to a^3 (where a is the major semiaxis and the T is the period of the orbit) by a constant k dependent on the mass of the bigger body of the binary system (even though this is inaccurate for the orbits of the gas giants, like Jupiter).
-
-[To be continued...]

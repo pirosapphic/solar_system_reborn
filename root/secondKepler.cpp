@@ -27,6 +27,10 @@ std::vector<double> arealVelocity(std::vector<std::vector<double>> vector_r, dou
 void secondKepler(){
     std::cout<<"Welcome to the simulator for the second Kepler law\n\n";
     std::cout<<"This will simulate the motion of the Earth around the Sun and of the Moon around the Earth\nIt will then calculate the areal velocity dA/dt as a function of time and show that it is constant.\n\n";
+    char choice = 'H';
+    std::cout<<"Press y to start the macro: ";
+    std::cin>>choice;
+    if(choice != 'y') return;
     Planets planets;
     //------------------------------------------------------
     //EARTH SUN SYSTEM
@@ -37,7 +41,7 @@ void secondKepler(){
     double dt = 100.;		//3e5 iterations
     std::cout<<"Simulating sun and earth\n";
     std::vector<std::vector<double>> vector_r = equivalentBodySimulation(*sun, *earth, totalt, dt);
-    std::cout<<"Successfully simulated sun and earth\n\n";
+    std::cout<<"\nSuccessfully simulated sun and earth\n\n";
     unsigned int n = vector_r.size();
     delete earth;	//to initialize it later
     delete sun;		//to free memory
@@ -56,7 +60,7 @@ void secondKepler(){
     dt = 10.;		//3e5 iterations
     std::cout<<"Simulating earth and moon\n";
     vector_r = equivalentBodySimulation(*earth, *moon, totalt, dt);
-    std::cout<<"Successfully simulated earth and moon\n";
+    std::cout<<"\nSuccessfully simulated earth and moon\n";
     n = vector_r.size();
     delete earth;	//to initialize it later
     delete moon;		//to free memory
@@ -83,6 +87,7 @@ void secondKepler(){
     gEM->GetHistogram()->SetMinimum(196.775346876e9);
     gEM->GetHistogram()->SetMaximum(196.77534719e9);
     gEM->Draw("AP");
+    return;
 }
 
 

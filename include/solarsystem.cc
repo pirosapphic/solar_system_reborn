@@ -5,6 +5,8 @@
 
 #include "solarsystem.h"
 
+//In this file we implement the class CelestialBody and its methods, declared in the corresponding header.
+
 CelestialBody::CelestialBody():
     m_name("DEFAULT"),
     m_mass(0.),

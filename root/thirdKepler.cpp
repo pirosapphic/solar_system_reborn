@@ -32,9 +32,13 @@ void thirdKepler(){
     std::cout<<"  - Earth Moon\n";
     std::cout<<"  - Sun Earth\n";
     std::cout<<"  - Sun Venus\n";
-    std::cout<<"  - Sun Jupiter\n";
+    std::cout<<"  - Sun Jupiter\n\n";
     std::cout<<"It will then calculate the period T, the major semiaxis a and the constant k = T^2/a^3.\n";
     std::cout<<"The simulated values of k will then be compared to the theoretical value\nk_calc=4pi^2/[G*(M+m)]\n(where m, M are the masses of the bodies and G is the gravitational constant), predicted by Newton's law of gravitation.\nThis will highlight not only that the constant depends on the bigger body in the system, but also that more massive planets have smaller values of k.\n\n";
+    char choice = 'H';
+    std::cout<<"Press y to start the macro: ";
+    std::cin>>choice;
+    if(choice != 'y') return;
     Planets planets;
     const double G = 6.67259e-11;
     const double PI = 3.141592653589793; //written by ale
@@ -46,7 +50,7 @@ void thirdKepler(){
     double dt = 10.;		//2e5 iterations
     std::cout<<"Simulating Earth and Moon\n";
     std::vector<std::vector<double>> vector_r = equivalentBodySimulation(*earth, *moon, totalt, dt);
-    std::cout<<"Successfully simulated Earth and Moon\n\n";
+    std::cout<<"\nSuccessfully simulated Earth and Moon\n\n";
     delete earth;	//to initialize it later
     delete moon;	//to free memory
     std::vector<double> results = orbitResults(vector_r, dt);
@@ -66,7 +70,7 @@ void thirdKepler(){
     dt = 100.;		//2e5 iterations
     std::cout<<"Simulating Sun and Earth\n";
     vector_r = equivalentBodySimulation(*sun, *earth, totalt, dt);
-    std::cout<<"Successfully simulated Sun and Earth\n";
+    std::cout<<"\nSuccessfully simulated Sun and Earth\n";
     delete earth;	
     delete sun;
     results = orbitResults(vector_r, dt);
@@ -87,7 +91,7 @@ void thirdKepler(){
     dt = 100.;		//2e5 iterations
     std::cout<<"Simulating Sun and Venus\n";
     vector_r = equivalentBodySimulation(*sun, *venus, totalt, dt);
-    std::cout<<"Successfully simulated Sun and Venus\n";
+    std::cout<<"\nSuccessfully simulated Sun and Venus\n";
     delete venus;	
     delete sun;
     results = orbitResults(vector_r, dt);
@@ -108,7 +112,7 @@ void thirdKepler(){
     dt = 1000.;		//2e5 iterations
     std::cout<<"Simulating Sun and Jupiter\n";
     vector_r = equivalentBodySimulation(*sun, *jupiter, totalt, dt);
-    std::cout<<"Successfully simulated Sun and Jupiter\n";
+    std::cout<<"\nSuccessfully simulated Sun and Jupiter\n";
     delete jupiter;	
     delete sun;
     results = orbitResults(vector_r, dt);
@@ -121,7 +125,12 @@ void thirdKepler(){
 ; 
     results.clear();
     results.shrink_to_fit();
+    return;
 }
+
+
+
+
 
 std::vector<double> orbitResults(std::vector<std::vector<double>> vector_r,double dt){
     //calculates the period T and the major semiaxis a of the orbital data 
@@ -132,10 +141,11 @@ std::vector<double> orbitResults(std::vector<std::vector<double>> vector_r,doubl
 	r_sq[i] = std::pow(vector_r[i][0],2) + std::pow(vector_r[i][1],2) + std::pow(vector_r[i][2],2);
     }
     // we find the maximum and minimum of the distances.
+    // the semiaxis a is a = 1/2 (r_max + r_min)
     // See the example at https://en.cppreference.com/w/cpp/algorithm/max_element.html
     std::vector<double>::iterator max = std::max_element(r_sq.begin(), r_sq.end());
     std::vector<double>::iterator min = std::min_element(r_sq.begin(), r_sq.end());
-    //we calculate the major semiaxis as (r_min + r_max)/2
+
     double r_max = std::sqrt(*max); //the iterator points to the maximum value
     double r_min = std::sqrt(*min); 
     double a = 0.5 * (r_max + r_min); //major semiaxis

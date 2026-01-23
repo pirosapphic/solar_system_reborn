@@ -5,9 +5,11 @@
 #include "solarsystem.h"
 #include "twobodies.h"
 
+//In this file we implement the fundamental functions for the two bodies simulation
+//If you're looking for the main simulation function, see simulation.h and simulation.cc
 
 void changeToCOM(CelestialBody& p1, CelestialBody& p2){
-    //this functions changes the frame of reference of the problem to that
+    //this functions changes the frame of reference of the two planets to that
     //of the center of mass
     std::vector<double> pos_COM(3);
     std::vector<double> vel_COM(3);
@@ -64,7 +66,7 @@ std::vector<double> gravityAcceleration(CelestialBody p,double m1, double m2){
     //used to compute the acceleration on the equivalent body p
     //using the nontrivial part of the decoupled Lagrangian
     //m1 and m2 are the masses of the two separate bodies
-    const double G = 6.67259e-29; //SI UNITS!!!
+    const double G = 6.67259e-11; //SI UNITS!!!
     std::vector<double> acceleration(3);
     double distance = 0;
     

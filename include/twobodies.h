@@ -6,6 +6,9 @@
 #include "solarsystem.h"
 #include "planets.h"
 
+//In this file we declare the specific functions to simulate the two body problem
+//See twobodies.cc for more detailed explanations of the functions
+
 void changeToCOM(CelestialBody& p1, CelestialBody& p2); //COM = Center Of Mass!
 
 CelestialBody toEquivalentBody(CelestialBody p1, CelestialBody p2);
