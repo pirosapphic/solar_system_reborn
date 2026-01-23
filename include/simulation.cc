@@ -26,8 +26,8 @@ void customSettings(std::vector<CelestialBody*>& bodies){
 	if (planet<10){
 	    CelestialBody* dummy_planet = new CelestialBody(*list_of_planets[planet]);
 	    bodies.push_back(dummy_planet);
-	    std::cout<<"Do you want to use the default state of "<<bodies[i]->getName()<<"? [y/n]: ";
-	    char choice = 'f';
+	    std::cout<<"Do you want to use the default state of "<<bodies[i]->getName()<<"? [Y/n]: ";
+	    char choice = 'y';
 	    std::cin>>choice;
 	    if(choice == 'n'){
 		std::cout<<"Initial state of body "<<i+1<<std::endl;
@@ -110,6 +110,8 @@ void setInitialConditions(std::vector<CelestialBody*>& bodies){
 	bodies.push_back(planets.sun);
 	bodies.push_back(planets.earth);
 	bodies.push_back(planets.moon);
+	std::cout<<"Suggested simulation times are:\n";
+	std::cout<<"Total time: 3.16e7s (i.e. 1 earth-year)\n Time step: 100s\n\n";
     }
     else if (input == 4){
 	bodies = list_of_planets; //in order of distance from the sun,
@@ -134,6 +136,20 @@ std::vector<std::vector<double>> equivalentBodySimulation(CelestialBody& p1, Cel
     *equivalent = toEquivalentBody(p1,p2);
     std::vector<double> acceleration;
     for (int i = 0; i < steps; i++){
+	//Progress bar
+	double percentage = (double) (i+1)/steps; //dynamic casting!
+	int perc_int = 100*percentage;
+	int barlen = 50;
+	int bar = std::ceil(percentage*barlen);
+	std::cout<<"\rLoading... [";
+	for(int m = 1; m <= bar; m++){
+	    std::cout<<"■";
+	}
+	for(int m = 1; m <= barlen-bar; m++){
+	    std::cout<<" ";
+	}
+	std::cout<<"] "<<std::setprecision(3)<<perc_int<<"%";
+	//Progress bar ends
 	pos[i] = equivalent->getPos();
 	acceleration = gravityAcceleration(*equivalent, p1.getMass(),p2.getMass());
 	equivalent->updateVel(acceleration,dt);
@@ -159,14 +175,28 @@ void twoBodiesSimulation(CelestialBody& p1, CelestialBody& p2, double totalt, do
     std::vector<double> acceleration;
     std::ofstream out_file(output_file); //to export data
     out_file<<"#x1,y1,z1,x2,y2,z2"<<std::endl; //header of the csv file
-    for (int i = 0; i< steps; i++){
-	    pos1[i] = p1.getPos();
-	    pos2[i] = p2.getPos();
-	    acceleration = gravityAcceleration(*equivalent,p1.getMass(),p2.getMass());
-	    equivalent->updateVel(acceleration,dt);
-	    equivalent->updatePos(dt);
-	    fromEquivalentBody(*equivalent,p1,p2);
-	    out_file<<std::setprecision(15)<<pos1[i][0]<<","<<pos1[i][1]<<","<<pos1[i][2]<<","<<pos2[i][0]<<","<<pos2[i][1]<<","<<pos2[i][2]<<std::endl;
+    for (int i = 0; i < steps; i++){
+	//Progress bar
+	double percentage = (double) (i+1)/steps; //dynamic casting!
+	int perc_int = 100*percentage;
+	int barlen = 50;
+	int bar = std::ceil(percentage*barlen);
+	std::cout<<"\rLoading... [";
+	for(int m = 1; m <= bar; m++){
+	    std::cout<<"■";
+	}
+	for(int m = 1; m <= barlen-bar; m++){
+	    std::cout<<" ";
+	}
+	std::cout<<"] "<<std::setprecision(3)<<perc_int<<"%";
+	//Progress bar ends
+	pos1[i] = p1.getPos();
+        pos2[i] = p2.getPos();
+	acceleration = gravityAcceleration(*equivalent,p1.getMass(),p2.getMass());
+	equivalent->updateVel(acceleration,dt);
+	equivalent->updatePos(dt);
+	fromEquivalentBody(*equivalent,p1,p2);
+	out_file<<std::setprecision(15)<<pos1[i][0]<<","<<pos1[i][1]<<","<<pos1[i][2]<<","<<pos2[i][0]<<","<<pos2[i][1]<<","<<pos2[i][2]<<std::endl;
     }
     out_file.close();
     std::cout<<"Successfully simulated the motion of the bodies "<<p1.getName()<<" and "<<p2.getName()<<std::endl;
@@ -179,15 +209,29 @@ void nBodiesSimulation(std::vector<CelestialBody*>& bodies, double totalt, doubl
     //std::string output_file should be in the form "relative/path/to/output.csv"
     double G = 6.67e-23; 
     //"Lasciate ogni speranza, voi ch'entrate"
-   // if (bodies.size() == 2) {
-   //     twoBodiesSimulation(*bodies[0], *bodies[1], totalt, dt, output_file);
-    //} else {
+    if (bodies.size() == 2) {
+        twoBodiesSimulation(*bodies[0], *bodies[1], totalt, dt, output_file);
+    } else {
         const int n_bodies = bodies.size();
         unsigned int steps = totalt / dt;
         std::ofstream out_file(output_file);
         out_file << "#n*(x1,y1,z1)" << std::endl;
 // ----------------------------------------------------------------------------------
-    for (int n = 0; n<steps; n++) {    
+	for (int n = 0; n<steps; n++) {
+	
+	double percentage = (double) (n+1)/steps; //dynamic casting!
+	int perc_int = 100*percentage;
+	int barlen = 50;
+	int bar = std::ceil(percentage*barlen);
+	std::cout<<"\rLoading... [";
+	for(int m = 1; m <= bar; m++){
+	    std::cout<<"■";
+	}
+	for(int m = 1; m <= barlen-bar; m++){
+	    std::cout<<" ";
+	}
+	std::cout<<"] "<<std::setprecision(3)<<perc_int<<"%";
+
         for (int i=0; i<n_bodies; i++) {
             std::vector<double> acc(3, 0);
             //double ax = 0, ay = 0, az = 0;
@@ -232,10 +276,10 @@ void nBodiesSimulation(std::vector<CelestialBody*>& bodies, double totalt, doubl
 // -------------------------------------------------------------------------------
         out_file.close();
 
-        std::cout<<"Successfully simulated the motion of the bodies!";
+        std::cout<<"\nSuccessfully simulated the motion of the bodies!";
         std::cout<<"Number of iterations: "<<steps<<std::endl;
         std::cout<<"The simulated data is stored by columns (x,y,z) in "<<output_file<<"; to visualize it, you can run the root macro with\nroot ./root/n_bodies_graphic.cpp\n";
 
-//    }  
+    }  
     
 }

@@ -7,7 +7,9 @@
 //	- the frame of reference considered is that of the center of the Sun, so sun_pos={0,0,0} and sun_vel={0,0,0}
 //	- all data was generated with the webapp https://ssd.jpl.nasa.gov/horizons/app.html#/ 
 //	- to replicate it, use the correct frame of reference and look up the data at the date and time
-//	  A.D. 2026-Jan-30 13:00:00.0000 TDB or, in Julian days, 2461071.041666667
+//	  A.D. 2026-Jan-30 13:00:00.0000 TDB or, in Julian days, JD 2461071.041666667
+//	  							 JD 2461072.041666667
+
 //
 class Planets {
     public:
