@@ -3,9 +3,10 @@
 ## geocentrism rocks!
 
 Final project for the "Computing Techniques for Physics" course in the Bachelor's Degree in Physics at the University of Turin.
-The goal is to simulate the solar system in C++, implementing a graphical engine with openGL to visualize the orbits of the planets in 3 dimensions. Coincidentally we also verify the validity of the second and third Kepler's laws.
+The goal is to simulate the solar system in C++, implementing a way to visualize the orbits of the planets in 2 and 3 dimensions using ROOT.
+Coincidentally we also verify the validity of the second and third Kepler's laws.
 
-### Luca Tempesta, Paolo Rocchietti March, Alessandro Romanini
+### Luca Tempesta, Alessandro Romanini, Paolo Rocchietti March.
 
 ## Structure
 
@@ -17,9 +18,7 @@ The project is subdivided in directories:
 * root: containing ROOT files
 * csv: containing the .csv files that store the simulations' output
 
-Moreover Make will be used to guarantee the automation of the compiling process.
-If the project becomes too complex to use Make, CMake will be used
-in order to automatize the Make file generation used to build the executables (.out).
+Make will be used to guarantee the automation of the compiling process.
 ## How to use
 Firstly, you need to clone this repository with the command
 
@@ -32,6 +31,7 @@ there you will be prompted with some presets and an option to fully customize th
 When the simulator is done, you can visualize the data in two ways:
 * Running the root macro <code>root ./root/bodiesGraphic2D.cpp</code>, that will plot the projection on the XY plane of the orbits.
 * Running the root macro <code>root ./root/bodiesGraphic3D.cpp</code>, that will fully plot the orbits in 3D. 
+
 NOTE: it is advisable to keep the number of total iterations below 5e6 and the time step below 1e4 seconds.
 
 ### Second Kepler law of planetary motion
