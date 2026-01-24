@@ -23,16 +23,20 @@ void customSettings(std::vector<CelestialBody*>& bodies){
     unsigned int n = 999;
     std::cin>>n;
     for(int i = 0; i < n; i++){
-	std::cout<<"Body "<<i+1<<std::endl;
-	std::cout<<"  - 0) Sun\n  - 1) Mercury\n  - 2) Venus\n  - 3) Earth\n  - 4) Moon\n  - 5) Mars\n  - 6) Jupiter\n  - 7) Saturn\n  - 8) Uranus\n  - 9) Neptune\n  - 10) Custom body\n";
 	unsigned int planet;
-	std::cout<<"NOTE: you should insert the bodies in reverse order of orbit radius for the visualizer to work correctly\n";
-	std::cout<<"Please choose one of the bodies listed above: ";
-	std::cin>>planet;
+	while(true){
+	    std::cout<<"Body "<<i+1<<std::endl;
+	    std::cout<<"  - 0) Sun\n  - 1) Mercury\n  - 2) Venus\n  - 3) Earth\n  - 4) Moon\n  - 5) Mars\n  - 6) Jupiter\n  - 7) Saturn\n  - 8) Uranus\n  - 9) Neptune\n  - 10) Custom body\n";
+	    std::cout<<"NOTE: you should insert the bodies in reverse order of orbit radius for the visualizer to work correctly\n";
+	    std::cout<<"Please choose one of the bodies listed above: ";
+	    std::cin>>planet;
+	    if(planet<=10 and planet >=0) break;
+	    std::cout<<"Invalid input, try again\n\n";
+	}
 	if (planet<10){
 	    CelestialBody* dummy_planet = new CelestialBody(*list_of_planets[planet]);
 	    bodies.push_back(dummy_planet);
-	    std::cout<<"Do you want to use the default state of "<<bodies[i]->getName()<<"? [Y/n]: ";
+	    std::cout<<"Do you want to use the default state of "<<bodies[i]->getName()<<"? [y/n]: ";
 	    char choice = 'y';
 	    std::cin>>choice;
 	    if(choice == 'n'){
@@ -80,8 +84,8 @@ void customSettings(std::vector<CelestialBody*>& bodies){
 	    bodies.push_back(custom_body);
 	}
 	std::cout<<"-----------------------\n";
-	std::cout<<"We suggest to set the total time and time step so that the number of iterations is not more than 5e6\n";
     }
+    std::cout<<"We suggest to set the total time and time step so that the number of iterations is not more than 5e6\n";
 }
 
 void setInitialConditions(std::vector<CelestialBody*>& bodies){
@@ -152,7 +156,7 @@ void setInitialConditions(std::vector<CelestialBody*>& bodies){
 	std::cout<<"Total time: 5e9s (i.e. 1 orbit of Neptune)\nTime step: 1e4s\n\n";
     }
 
-    else if (input == 7){
+    else {//input == 7)
 	customSettings(bodies);
     }
     bodies.shrink_to_fit();

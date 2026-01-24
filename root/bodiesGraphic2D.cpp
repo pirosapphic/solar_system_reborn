@@ -11,7 +11,7 @@ void bodiesGraphic2D(){
     const int n_bodies = data.size()/3;
     std::cout << "Number of bodies: " << n_bodies << std::endl; 
     std::vector<TGraph*> graphs;
-    TCanvas* can = new TCanvas("total","orbits",1200,800);
+    TCanvas* can = new TCanvas("2D orbits visualizer","2D orbits",1200,800);
     int counter = data.size() - 1;
     for (int i = n_bodies; i > 0; i--) {
         TGraph* dummy =  new TGraph(data[i].size(), data[counter-2].data(), data[counter-1].data()); 
