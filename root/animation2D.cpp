@@ -60,7 +60,7 @@ void animation2D(){
 	circles[i] = dummy;
     }
     std::cout<<"Circles created\n";
-    for(int i = 0; i < steps; i += steps/1200) {
+    for(int i = 0; i < steps; i += steps/120) {
 	counter = 0;
 	for(int j = 0; j < 2*n_bodies; j += 2) {
 	    circles[counter]->SetX1(new_data[j][i]);

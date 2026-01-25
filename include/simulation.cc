@@ -84,6 +84,32 @@ void customSettings(std::vector<CelestialBody*>& bodies){
     }
 }
 
+void fourBodies(std::vector<CelestialBody*>& bodies){
+
+    Planets planets;
+    std::vector<CelestialBody*> list_of_planets = planets.list_of_planets;
+    
+    double m = planets.moon->getMass();
+    
+    //CelestialBody* moon1 = new CelestialBody("moon1",m,{-23996068,-4359309,0},{107,-557,0});
+    //CelestialBody* moon2 = new CelestialBody("moon2",m,{17857056,-16613679,0},{392,413,0});
+    //CelestialBody* moon3 = new CelestialBody("moon3",m,{21818958,4952254,0},{-211,204,0});
+    //CelestialBody* moon4 = new CelestialBody("moon4",m,{-15679946,16020734,0},{-288,-58.9,0});
+    
+    CelestialBody* moon1 = new CelestialBody("moon1",m,{17936783,-35734331,0},{338,-31.6,0});
+    CelestialBody* moon2 = new CelestialBody("moon2",m,{28985207,8193378,0},{-328,251,0});
+    CelestialBody* moon3 = new CelestialBody("moon3",m,{-10820767,21909245,0},{121,-351,0});
+    CelestialBody* moon4 = new CelestialBody("moon4",m,{-36101224,5631708,0},{-131,131,0});
+    
+    bodies.push_back(moon1);
+    bodies.push_back(moon2);
+    bodies.push_back(moon3);
+    bodies.push_back(moon4);
+    
+    std::cout<<"Suggested simulation times are:\n";
+    std::cout<<"Total time: 4.32e5s (i.e. 5 days)\nTime step: 1s\n\n";
+}
+
 void setInitialConditions(std::vector<CelestialBody*>& bodies){
     //This is the greeter and the function that sets the initial conditions for the simulations	
     //Used in src/main.cpp
@@ -99,7 +125,8 @@ void setInitialConditions(std::vector<CelestialBody*>& bodies){
 	std::cout << "  - 4) Solar System (full)\n";
 	std::cout << "  - 5) Inner Solar System\n";
 	std::cout << "  - 6) Outer Solar System\n";
-	std::cout << "  - 7) Custom\n\n";
+	std::cout << "  - 7) Four body system\n";
+	std::cout << "  - 8) Custom\n\n";
 	std::cout << "Choose one of the options above: ";
 	std::cin>>input;
 	std::cout << std::endl;
@@ -153,6 +180,10 @@ void setInitialConditions(std::vector<CelestialBody*>& bodies){
     }
 
     else if (input == 7){
+        fourBodies(bodies);
+    }
+
+    else {//input == 8)
 	customSettings(bodies);
     }
     bodies.shrink_to_fit();

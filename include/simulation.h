@@ -10,6 +10,8 @@
 //In this file we declare the functions used to simulate the motion, this is the core of the project
 //See simulation.cc for more detailed explanations of the functions
 
+void fourBodies(std::vector<CelestialBody*>& bodies);
+
 void setInitialConditions(std::vector<CelestialBody*>& bodies);
 
 void customSettings(std::vector<CelestialBody*>& bodies);
