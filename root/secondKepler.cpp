@@ -73,6 +73,7 @@ void secondKepler(){
     //now we graph!
     TCanvas* cSE = new TCanvas("cSE","sun earth",1200,800);
     TGraph* gSE = new TGraph(areal_SE.size(),times_SE.data(),areal_SE.data());
+    cSE->SetGrid();
     cSE->cd();
     gSE->SetMarkerStyle(1);
     gSE->SetTitle("Areal velocity vs time, Sun Earth system;t[s];#frac{dA}{dt}[m^{2}/s]");
@@ -81,6 +82,7 @@ void secondKepler(){
     gSE->Draw("AP");
     TCanvas* cEM = new TCanvas("cEM","earth moon",1200,800);
     TGraph* gEM = new TGraph(areal_EM.size(),times_EM.data(),areal_EM.data());
+    cEM->SetGrid();
     cEM->cd(); 
     gEM->SetMarkerStyle(1);
     gEM->SetTitle("Areal velocity vs time, Earth Moon system;t[s];#frac{dA}{dt}[m^{2}/s]");
