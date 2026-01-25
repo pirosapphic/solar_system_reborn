@@ -2,19 +2,21 @@
 #define planets_h
 #include <iostream>
 #include "solarsystem.h"
-//Here are set the initial conditions for a stable solar system simulation
-//with the class Planets: the members are the planets of the solar system, with
-//initial conditions that will bring a stable simulation.
-//Some information on the data:
+//The initial conditions for a stable solar system simulation
+//are set here, within the class Planets the members are the planets of the solar system, 
+//initial conditions are set to obtain a stable simulation.
+//We provide here some insight on the data:
 //  - Masses, positions and velocities are in SI units (kg, m, m/s).
-//  - The frame of reference considered is that of the center of the Sun, so sun_pos={0,0,0} and sun_vel={0,0,0}
+//  - The frame of reference considered is that of the center of the Sun: sun_pos={0,0,0}, sun_vel={0,0,0}.
+//  
 //  - All data was generated with the webapp https://ssd.jpl.nasa.gov/horizons/app.html#/ 
-//  - To replicate it, use the coordinate center "Sun (body center)" and look up the data for each body at the date and time
-//    A.D. 2026-Jan-30 13:00:00.0000 TDB or, in Julian days, JD 2461071.041666667
-//    Note that the app requires a nonzero time interval, but this data is taken from the exact time written above.
-//	  
-
+//  
+//  - To replicate the data we suggest to use the coordinate center "Sun (body center)" and fetch data for each body at the following date and time:
 //
+//    		A.D. 2026-Jan-30 13:00:00.0000 TDB or, in Julian days, JD 2461071.041666667
+//    		Note: The weapp requires a non-zero time interval, though this data was fetched from the exact time written above while using
+//    		a dummy time in Julian days to allow for data fetching.
+
 class Planets {
     public:
 	Planets() {};
@@ -43,6 +45,5 @@ class Planets {
 
     	std::vector<CelestialBody*> list_of_planets = {sun, mercury, venus, earth, moon, mars, jupiter, saturn, uranus, neptune};
 };
-
 
 #endif

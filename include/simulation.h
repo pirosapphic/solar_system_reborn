@@ -7,8 +7,8 @@
 #include "solarsystem.h"
 #include "twobodies.h"
 
-//In this file we declare the functions used to simulate the motion, this is the core of the project
-//See simulation.cc for more detailed explanations of the functions
+//This file is used to declare the functions used to simulate the motion of planets.
+//See simulation.cc for more detailed explanations of the functions...
 
 void fourBodies(std::vector<CelestialBody*>& bodies);
 
