@@ -6,16 +6,12 @@
 #include <vector>
 #include"../include/csvconverter.h"
 
-//this is a general purpose animator: it animates 2D orbits simulated with
-///bin/main and puts the resulting animation in ./root/media/animation.gif
-//These gifs can be converted by using ffmpeg -i /path/to/yourgif.gif /path/to/yourvideo.mp4
+//this is an animator for the outer solar system: it animates 2D orbits simulated with
+//the preset "Outer solar System" of /bin/main and puts the resulting animation in
+// ./root/media/animationOuterSolarSystem.gif
+//These gifs can be converted to videos by using ffmpeg -i /path/to/yourgif.gif /path/to/yourvideo.mp4
 
-//WARNING: this code relies on the fact that the last planet in csv/output.csv
-//	   has the biggest orbit of the system: this is NOT the case in the sun-earth-moon preset
-//	   To visualize this orbit (and others), use the dedicated simulator in this directory.
-
-
-void animation2D(){
+void animationOuterSolarSystem2D(){
     std::vector<std::vector<double>> data = csvReaderToDouble("./csv/output.csv",1);
     //unpacking data
     int steps = data[0].size();
@@ -25,9 +21,8 @@ void animation2D(){
 
     TCanvas* can = new TCanvas("can", "can", 2400, 2400);
     can->SetFillColor(kBlack);
-    //data[3*n_bodies-3] is the x array of the biggest orbit
-    //data[3*n_bodies-2] is the y array of the biggest orbit
-    //we find the max and min of these to convert the coords in canvas coords
+    //here we are sure that Neptune's orbit is the biggest, so we use
+    //the general purpose animator way to determine max and min
     double max_x = *std::max_element(data[3*n_bodies-3].begin(),data[3*n_bodies-3].end());
     double max_y = *std::max_element(data[3*n_bodies-2].begin(),data[3*n_bodies-2].end());
     double min_x = *std::min_element(data[3*n_bodies-3].begin(),data[3*n_bodies-3].end());
@@ -48,14 +43,29 @@ void animation2D(){
     // new_data are normalized coords
 
     //animation
-    std::vector<TEllipse*> circles(n_bodies);
-    for (int i = 0; i < n_bodies; i++){
-	TEllipse* dummy = new TEllipse(0,0,0.003,0.003); //coords, semiaxes
-	dummy->SetFillColor(kWhite);
-	circles[i] = dummy;
-    }
-    std::cout<<"Circles created\n";
-    for(int i = 0; i < steps; i += steps/120) {
+    std::vector<TEllipse*> circles;
+    
+    TEllipse* sun = new TEllipse(0,0,0.01,0.01);
+    sun->SetFillColor(kYellow);
+    circles.push_back(sun);
+    
+    TEllipse* jupiter = new TEllipse(0,0,0.003,0.003);
+    jupiter->SetFillColor(kOrange - 9);
+    circles.push_back(jupiter);
+    
+    TEllipse* saturn = new TEllipse(0,0,0.003,0.003);
+    saturn->SetFillColor(kOrange - 6);
+    circles.push_back(saturn);
+    
+    TEllipse* uranus = new TEllipse(0,0,0.003,0.003);
+    uranus->SetFillColor(kCyan - 10);
+    circles.push_back(uranus);
+    
+    TEllipse* nepture = new TEllipse(0,0,0.003,0.003);
+    neptune->SetFillColor(kBlue - 1);
+    circles.push_back(neptune);
+    
+    for(int i = 0; i < steps; i += steps/240) {
 	counter = 0;
 	for(int j = 0; j < 2*n_bodies; j += 2) {
 	    circles[counter]->SetX1(new_data[j][i]);
@@ -64,7 +74,7 @@ void animation2D(){
 	    counter += 1;
 	}
 	can->Update();
-	can->Print("./root/media/animation.gif+");
+	can->Print("./root/media/animationOuterSolarSystem.gif+");
     }
 	
 

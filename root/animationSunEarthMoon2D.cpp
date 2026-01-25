@@ -6,16 +6,12 @@
 #include <vector>
 #include"../include/csvconverter.h"
 
-//this is a general purpose animator: it animates 2D orbits simulated with
-///bin/main and puts the resulting animation in ./root/media/animation.gif
+//this is an animator for the sun-earth-moon system: it animates 2D orbits simulated with
+//the preset "sun earth moon" of /bin/main and puts the resulting animation in
+// ./root/media/animationSunEarthMoon.gif
 //These gifs can be converted by using ffmpeg -i /path/to/yourgif.gif /path/to/yourvideo.mp4
 
-//WARNING: this code relies on the fact that the last planet in csv/output.csv
-//	   has the biggest orbit of the system: this is NOT the case in the sun-earth-moon preset
-//	   To visualize this orbit (and others), use the dedicated simulator in this directory.
-
-
-void animation2D(){
+void animationSunEarthMoon2D(){
     std::vector<std::vector<double>> data = csvReaderToDouble("./csv/output.csv",1);
     //unpacking data
     int steps = data[0].size();
@@ -25,13 +21,12 @@ void animation2D(){
 
     TCanvas* can = new TCanvas("can", "can", 2400, 2400);
     can->SetFillColor(kBlack);
-    //data[3*n_bodies-3] is the x array of the biggest orbit
-    //data[3*n_bodies-2] is the y array of the biggest orbit
-    //we find the max and min of these to convert the coords in canvas coords
-    double max_x = *std::max_element(data[3*n_bodies-3].begin(),data[3*n_bodies-3].end());
-    double max_y = *std::max_element(data[3*n_bodies-2].begin(),data[3*n_bodies-2].end());
-    double min_x = *std::min_element(data[3*n_bodies-3].begin(),data[3*n_bodies-3].end());
-    double min_y = *std::min_element(data[3*n_bodies-2].begin(),data[3*n_bodies-2].end());
+    //as this is NOT the general animator, we use the max and min we can see by graphing the orbit.
+
+    double max_x = 155e9; 
+    double max_y = 150e9;
+    double min_x = -150e9;
+    double min_y = -155e9;
     //I want the point (x_min,y_min) to become (0,0) and (x_max,y_max) to become (1,1)
     //so x_new = (x_old-x_min)/(x_max-x_min)
     //so y_new = (y_old-y_min)/(y_max-y_min)
@@ -49,13 +44,20 @@ void animation2D(){
 
     //animation
     std::vector<TEllipse*> circles(n_bodies);
-    for (int i = 0; i < n_bodies; i++){
-	TEllipse* dummy = new TEllipse(0,0,0.003,0.003); //coords, semiaxes
-	dummy->SetFillColor(kWhite);
-	circles[i] = dummy;
-    }
-    std::cout<<"Circles created\n";
-    for(int i = 0; i < steps; i += steps/120) {
+    
+    TEllipse* sun = new TEllipse(0,0,0.01,0.01);
+    sun->SetFillColor(kYellow);
+    circles[0] = sun;
+    
+    TEllipse* earth = new TEllipse(0,0,0.003,0.003);
+    earth->SetFillColor(kBlue);
+    circles[1] = earth;
+    
+    TEllipse* moon = new TEllipse(0,0,0.002,0.002);
+    moon->SetFillColor(kWhite);
+    circles[2] = moon;
+    
+    for(int i = 0; i < steps; i += steps/240) {
 	counter = 0;
 	for(int j = 0; j < 2*n_bodies; j += 2) {
 	    circles[counter]->SetX1(new_data[j][i]);
@@ -64,7 +66,7 @@ void animation2D(){
 	    counter += 1;
 	}
 	can->Update();
-	can->Print("./root/media/animation.gif+");
+	can->Print("./root/media/animationSunEarthMoon.gif+");
     }
 	
 
