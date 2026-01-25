@@ -55,12 +55,12 @@ void animation2D(){
     //animation
     std::vector<TEllipse*> circles(n_bodies);
     for (int i = 0; i < n_bodies; i++){
-	TEllipse* dummy = new TEllipse(0,0,0.005,0.005); //coords, semiaxes
+	TEllipse* dummy = new TEllipse(0,0,0.003,0.003); //coords, semiaxes
 	dummy->SetFillColor(kWhite);
 	circles[i] = dummy;
     }
     std::cout<<"Circles created\n";
-    for(int i = 0; i < steps; i += steps/120) {
+    for(int i = 0; i < steps; i += steps/1200) {
 	counter = 0;
 	for(int j = 0; j < 2*n_bodies; j += 2) {
 	    circles[counter]->SetX1(new_data[j][i]);
