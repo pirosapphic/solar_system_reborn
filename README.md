@@ -52,6 +52,7 @@ In the <code>root</code> directory there are some macros that allow to visualize
 * <code>root ./root/animationInnerSolarSystem.cpp</code> is the specific animation macro for the inner Solar System.
 * <code>root ./root/animationOuterSolarSystem.cpp</code> is the specific animation macro for the outer Solar System.
 * <code>root ./root/animationSunEarthMoon.cpp</code> is the specific animation macro for the Sun, Earth and Moon system.
+
 All the animation macros produce a .gif file in <code>./root/media</code> that can be converted in a .mp4 video format by using the <code>ffmpeg</code> utility:
 
 <code>ffmpeg -i /path/to/file_name.gif /path/to/file_name.mp4</code>
