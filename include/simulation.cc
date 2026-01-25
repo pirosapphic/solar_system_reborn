@@ -274,9 +274,10 @@ void twoBodiesSimulation(CelestialBody& p1, CelestialBody& p2, double totalt, do
 	out_file<<std::setprecision(15)<<pos1[i][0]<<","<<pos1[i][1]<<","<<pos1[i][2]<<","<<pos2[i][0]<<","<<pos2[i][1]<<","<<pos2[i][2]<<std::endl;
     }
     out_file.close();
-    std::cout<<"Successfully simulated the motion of the bodies "<<p1.getName()<<" and "<<p2.getName()<<std::endl;
+    std::cout<<"\nSuccessfully simulated the motion of the bodies "<<p1.getName()<<" and "<<p2.getName()<<std::endl;
     std::cout<<"Number of iterations: "<<steps<<std::endl;
-    std::cout<<"The simulated data is stored by columns (x,y,z) in "<<output_file<<".\nTo visualize it, you can run the specific root macros with\nroot ./root/bodiesGraphic3D.cpp\nroot ./root/bodiesGraphic2D.cpp\n";
+	std::cout<<"The simulated data is stored by columns (x,y,z) in "<<output_file<<".\nTo visualize it, you can run the dedicated root macros with\n  - root ./root/bodiesGraphic3D.cpp\n  - root ./root/bodiesGraphic2D.cpp\n";
+    std::cout<<"  - root ./root/animation2D.cpp (and others, see README.md)\n";
 }
 
 void changeToCOM(std::vector<CelestialBody*>& bodies){
@@ -399,8 +400,7 @@ void nBodiesSimulation(std::vector<CelestialBody*>& bodies, double totalt, doubl
 	std::cout<<"\nSuccessfully simulated the motion of the bodies!\n";
 	std::cout<<"Number of iterations: "<<steps<<std::endl;
 	std::cout<<"The simulated data is stored by columns (x,y,z) in "<<output_file<<".\nTo visualize it, you can run the dedicated root macros with\n  - root ./root/bodiesGraphic3D.cpp\n  - root ./root/bodiesGraphic2D.cpp\n";
-	;
-
+    std::cout<<"  - root ./root/animation2D.cpp (and others, see README.md)\n";
     }  
 
 }
