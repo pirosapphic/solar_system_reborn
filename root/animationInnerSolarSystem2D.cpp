@@ -19,7 +19,7 @@ void animationInnerSolarSystem2D(){
     const int n_bodies = data.size()/3;
     std::cout << "Number of bodies: " << n_bodies << std::endl; 
 
-    TCanvas* can = new TCanvas("can", "can", 2400, 2400);
+    TCanvas* can = new TCanvas("can", "can", 1200, 1200);
     can->SetFillColor(kBlack);
     //here we are sure that mars' orbit is the biggest, so we use
     //the general purpose animator way to determine max and min
@@ -45,12 +45,12 @@ void animationInnerSolarSystem2D(){
     //animation
     std::vector<TEllipse*> circles;
     
-    TEllipse* sun = new TEllipse(0,0,0.01,0.01);
+    TEllipse* sun = new TEllipse(0,0,0.005,0.005);
     sun->SetFillColor(kYellow);
     circles.push_back(sun);
     
     TEllipse* mercury = new TEllipse(0,0,0.003,0.003);
-    mercury->SetFillColor(kGrey);
+    mercury->SetFillColor(kGray);
     circles.push_back(mercury);
     
     TEllipse* venus = new TEllipse(0,0,0.003,0.003);
@@ -68,8 +68,8 @@ void animationInnerSolarSystem2D(){
     TEllipse* mars = new TEllipse(0,0,0.003,0.003);
     mars->SetFillColor(kOrange + 5);
     circles.push_back(mars);
-    
-    for(int i = 0; i < steps; i += steps/240) {
+     
+    for(int i = 0; i < steps; i += steps / 240) {
 	counter = 0;
 	for(int j = 0; j < 2*n_bodies; j += 2) {
 	    circles[counter]->SetX1(new_data[j][i]);

@@ -44,7 +44,7 @@ void customSettings(std::vector<CelestialBody*>& bodies){
 		std::cin>>y;
 		std::cout<<"z [m] = ";
 		std::cin>>z;
-		
+
 		std::cout<<"vx [m/s] = ";
 		std::cin>>vx;
 		std::cout<<"vy [m/s] = ";
@@ -85,27 +85,23 @@ void customSettings(std::vector<CelestialBody*>& bodies){
 }
 
 void fourBodies(std::vector<CelestialBody*>& bodies){
-
+    //this sets the preset 7: it is a stable 4 body problem
+    //used in setInitialConditions()
     Planets planets;
     std::vector<CelestialBody*> list_of_planets = planets.list_of_planets;
-    
+
     double m = planets.moon->getMass();
-    
-    //CelestialBody* moon1 = new CelestialBody("moon1",m,{-23996068,-4359309,0},{107,-557,0});
-    //CelestialBody* moon2 = new CelestialBody("moon2",m,{17857056,-16613679,0},{392,413,0});
-    //CelestialBody* moon3 = new CelestialBody("moon3",m,{21818958,4952254,0},{-211,204,0});
-    //CelestialBody* moon4 = new CelestialBody("moon4",m,{-15679946,16020734,0},{-288,-58.9,0});
-    
+
     CelestialBody* moon1 = new CelestialBody("moon1",m,{17936783,-35734331,0},{338,-31.6,0});
     CelestialBody* moon2 = new CelestialBody("moon2",m,{28985207,8193378,0},{-328,251,0});
     CelestialBody* moon3 = new CelestialBody("moon3",m,{-10820767,21909245,0},{121,-351,0});
     CelestialBody* moon4 = new CelestialBody("moon4",m,{-36101224,5631708,0},{-131,131,0});
-    
+
     bodies.push_back(moon1);
     bodies.push_back(moon2);
     bodies.push_back(moon3);
     bodies.push_back(moon4);
-    
+
     std::cout<<"Suggested simulation times are:\n";
     std::cout<<"Total time: 4.32e5s (i.e. 5 days)\nTime step: 1s\n\n";
 }
@@ -180,7 +176,7 @@ void setInitialConditions(std::vector<CelestialBody*>& bodies){
     }
 
     else if (input == 7){
-        fourBodies(bodies);
+	fourBodies(bodies);
     }
 
     else {//input == 8)
@@ -200,7 +196,7 @@ std::vector<std::vector<double>> equivalentBodySimulation(CelestialBody& p1, Cel
     unsigned int steps = totalt / dt;
     std::vector<std::vector<double>> pos(steps, std::vector<double>(3));
     changeToCOM(p1,p2); //probably do not need this, as I do not need to convert
-			  //back to p1 and p2
+			//back to p1 and p2
     CelestialBody* equivalent = new CelestialBody;
     *equivalent = toEquivalentBody(p1,p2);
     std::vector<double> acceleration;
@@ -233,7 +229,7 @@ void twoBodiesSimulation(CelestialBody& p1, CelestialBody& p2, double totalt, do
     //the center of mass of the system. This was implemented separately from n>2 because it is less resource intensive.
     //It simulates the motion of p1 and p2 and puts the result in output_file (as a .csv)
     //The differential equations of motion are integrated with Euler's method.
-    
+
     //It is called in nBodiesSimulation for n==2
 
     //std::string output_file should be in the form "relative/path/to/output.csv"
@@ -241,7 +237,7 @@ void twoBodiesSimulation(CelestialBody& p1, CelestialBody& p2, double totalt, do
     std::vector<std::vector<double>> pos1(steps, std::vector<double>(3));
     std::vector<std::vector<double>> pos2(steps, std::vector<double>(3));
     //the first index is the time step, so that pos1[i] is the position vector of p1 @ t=i*dt
-    
+
     changeToCOM(p1,p2);	//fundamental!
     CelestialBody* equivalent = new CelestialBody();
     *equivalent = toEquivalentBody(p1,p2);
@@ -263,9 +259,9 @@ void twoBodiesSimulation(CelestialBody& p1, CelestialBody& p2, double totalt, do
 	}
 	std::cout<<"] "<<std::setprecision(3)<<perc_int<<"%";
 	//Progress bar ends
-	
+
 	pos1[i] = p1.getPos();
-        pos2[i] = p2.getPos();
+	pos2[i] = p2.getPos();
 	acceleration = gravityAcceleration(*equivalent,p1.getMass(),p2.getMass());
 	equivalent->updateVel(acceleration,dt);
 	equivalent->updatePos(dt);
@@ -288,7 +284,7 @@ void changeToCOM(std::vector<CelestialBody*>& bodies){
     const int n = bodies.size();
     for(int i = 0; i<n; i++){
 	mass_sum += bodies[i]->getMass();
-	
+
 	pos_sum[0] += bodies[i]->getPos()[0] * bodies[i]->getMass();
 	pos_sum[1] += bodies[i]->getPos()[1] * bodies[i]->getMass();
 	pos_sum[2] += bodies[i]->getPos()[2] * bodies[i]->getMass();
@@ -322,21 +318,21 @@ void nBodiesSimulation(std::vector<CelestialBody*>& bodies, double totalt, doubl
     //for each time step, we calculate the acceleratiom that each body is subject to
     //because of the gravitational pull of all others, we then update all the velocities
     //and positions and start again with the next time step.
-    
+
     //It is basically a brute-force solution, with a very big complexity
-    
+
     //std::string output_file should be in the form "relative/path/to/output.csv"
     double G = 6.67259e-11; 
     //"Lasciate ogni speranza, voi ch'entrate"
     if (bodies.size() == 2) {
-        twoBodiesSimulation(*bodies[0], *bodies[1], totalt, dt, output_file);
+	twoBodiesSimulation(*bodies[0], *bodies[1], totalt, dt, output_file);
     } else {
 	changeToCOM(bodies);
-        const int n_bodies = bodies.size();
-        unsigned int steps = totalt / dt;
-        std::ofstream out_file(output_file);
-        out_file << "#This file contains simulated data from /bin/main: the bodies are in order and each body has one column for each of the coordinates" << std::endl;//header of the csv file
-// ----------------------------------------------------------------------------------
+	const int n_bodies = bodies.size();
+	unsigned int steps = totalt / dt;
+	std::ofstream out_file(output_file);
+	out_file << "#This file contains simulated data from /bin/main: the bodies are in order and each body has one column for each of the coordinates" << std::endl;//header of the csv file
+																				       // ----------------------------------------------------------------------------------
 	for (int n = 0; n<steps; n++) {
 	    //Progress bar
 	    double percentage = (double) (n+1)/steps; //dynamic casting!
@@ -357,14 +353,14 @@ void nBodiesSimulation(std::vector<CelestialBody*>& bodies, double totalt, doubl
 		//We iterate on the bodies to calculate their accelerations
 		//Firstly, we store the position from the previous iteration to the output file
 		out_file<<std::setprecision(15)<<bodies[i]->getPos()[0]<<","<<bodies[i]->getPos()[1]<<","<<bodies[i]->getPos()[2]<<",";
-		
+
 		std::vector<double> acc = {0,0,0};
 		bodies[i]->setVirtualAcc({0.,0.,0.}); //we reset the virtual acceleration
 
 		for (int j = 0; j<n_bodies; j++) {
 		    //We then iterate on all other bodies and calculate the acceleration of bodies[i]
 		    //based on the relative position of all the other bodies.
-		    
+
 		    // Need to skip the current body during calculation of acc
 		    if (bodies[j] == bodies[i]) {
 			continue;
@@ -393,7 +389,7 @@ void nBodiesSimulation(std::vector<CelestialBody*>& bodies, double totalt, doubl
 	    // last comma could be a problem, in case need to delete last line character
 	    out_file<<std::endl; //one line for each iteration
 	}//closing of the iterations loop
-	// -------------------------------------------------------------------------------
+	 // -------------------------------------------------------------------------------
 	out_file.close();
 
 	std::cout<<"\nSuccessfully simulated the motion of the bodies!\n";

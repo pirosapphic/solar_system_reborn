@@ -19,7 +19,7 @@ void animationSunEarthMoon2D(){
     const int n_bodies = data.size()/3;
     std::cout << "Number of bodies: " << n_bodies << std::endl; 
 
-    TCanvas* can = new TCanvas("can", "can", 2400, 2400);
+    TCanvas* can = new TCanvas("can", "can", 1200, 1200);
     can->SetFillColor(kBlack);
     //as this is NOT the general animator, we use the max and min we can see by graphing the orbit.
 
@@ -45,7 +45,7 @@ void animationSunEarthMoon2D(){
     //animation
     std::vector<TEllipse*> circles(n_bodies);
     
-    TEllipse* sun = new TEllipse(0,0,0.01,0.01);
+    TEllipse* sun = new TEllipse(0,0,0.005,0.005);
     sun->SetFillColor(kYellow);
     circles[0] = sun;
     

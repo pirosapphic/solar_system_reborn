@@ -19,7 +19,7 @@ void animationOuterSolarSystem2D(){
     const int n_bodies = data.size()/3;
     std::cout << "Number of bodies: " << n_bodies << std::endl; 
 
-    TCanvas* can = new TCanvas("can", "can", 2400, 2400);
+    TCanvas* can = new TCanvas("can", "can", 1200, 1200);
     can->SetFillColor(kBlack);
     //here we are sure that Neptune's orbit is the biggest, so we use
     //the general purpose animator way to determine max and min
@@ -45,7 +45,7 @@ void animationOuterSolarSystem2D(){
     //animation
     std::vector<TEllipse*> circles;
     
-    TEllipse* sun = new TEllipse(0,0,0.01,0.01);
+    TEllipse* sun = new TEllipse(0,0,0.005,0.005);
     sun->SetFillColor(kYellow);
     circles.push_back(sun);
     
@@ -61,7 +61,7 @@ void animationOuterSolarSystem2D(){
     uranus->SetFillColor(kCyan - 10);
     circles.push_back(uranus);
     
-    TEllipse* nepture = new TEllipse(0,0,0.003,0.003);
+    TEllipse* neptune = new TEllipse(0,0,0.003,0.003);
     neptune->SetFillColor(kBlue - 1);
     circles.push_back(neptune);
     

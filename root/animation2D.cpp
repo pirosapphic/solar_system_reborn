@@ -12,7 +12,7 @@
 
 //WARNING: this code relies on the fact that the last planet in csv/output.csv
 //	   has the biggest orbit of the system: this is NOT the case in the sun-earth-moon preset
-//	   To visualize this orbit (and others), use the dedicated simulator in this directory.
+//	   To visualize this orbit (and others), use the dedicated simulators in this directory.
 
 
 void animation2D(){
@@ -23,7 +23,7 @@ void animation2D(){
     const int n_bodies = data.size()/3;
     std::cout << "Number of bodies: " << n_bodies << std::endl; 
 
-    TCanvas* can = new TCanvas("can", "can", 2400, 2400);
+    TCanvas* can = new TCanvas("can", "can", 1200, 1200);
     can->SetFillColor(kBlack);
     //data[3*n_bodies-3] is the x array of the biggest orbit
     //data[3*n_bodies-2] is the y array of the biggest orbit
@@ -32,7 +32,7 @@ void animation2D(){
     double max_y = *std::max_element(data[3*n_bodies-2].begin(),data[3*n_bodies-2].end());
     double min_x = *std::min_element(data[3*n_bodies-3].begin(),data[3*n_bodies-3].end());
     double min_y = *std::min_element(data[3*n_bodies-2].begin(),data[3*n_bodies-2].end());
-    //I want the point (x_min,y_min) to become (0,0) and (x_max,y_max) to become (1,1)
+    //I want the point (x_min,y_min) to become (0,0) and (x_max,y_max) to become (1,1) to print directly in TCanvas
     //so x_new = (x_old-x_min)/(x_max-x_min)
     //so y_new = (y_old-y_min)/(y_max-y_min)
     std::vector<std::vector<double>> new_data(2*n_bodies, std::vector<double>(steps));
