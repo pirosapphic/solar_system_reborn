@@ -41,7 +41,9 @@ void animationInnerSolarSystem2D(){
     }
 
     // new_data are normalized coords
-
+    
+    data.clear();
+    data.shrink_to_fit();
     //animation
     std::vector<TEllipse*> circles;
     
