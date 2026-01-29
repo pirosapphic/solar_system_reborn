@@ -21,26 +21,41 @@ void customSettings(std::vector<CelestialBody*>& bodies){
     std::cout<<"\n\nCustom settings\n";
     std::cout<<"Number of bodies for the simulation n = ";
     unsigned int n = 999;
-    std::cin>>n;
+    while(!(std::cin>>n) or n < 2){
+	std::cout<<"Please provide an integer greater than 1\n";
+	std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	std::cout<<"Number of bodies for the simulation n = ";
+    }//this makes sure that the entered input is an int > 1
+
     for(int i = 0; i < n; i++){
 	unsigned int planet;
-	while(true){
-	    std::cout<<"Body "<<i+1<<std::endl;
-	    std::cout<<"  - 0) Sun\n  - 1) Mercury\n  - 2) Venus\n  - 3) Earth\n  - 4) Moon\n  - 5) Mars\n  - 6) Jupiter\n  - 7) Saturn\n  - 8) Uranus\n  - 9) Neptune\n  - 10) Custom body\n";
-	    std::cout<<"NOTE: you should insert the bodies in reverse order of orbit radius for the visualizer to work correctly\n";
+	std::cout<<"Body "<<i+1<<std::endl;
+	std::cout<<"  - 0) Sun\n  - 1) Mercury\n  - 2) Venus\n  - 3) Earth\n  - 4) Moon\n  - 5) Mars\n  - 6) Jupiter\n  - 7) Saturn\n  - 8) Uranus\n  - 9) Neptune\n  - 10) Custom body\n";
+	std::cout<<"NOTE: you should insert the bodies in reverse order of orbit radius for the visualizer to work correctly\n";
+	
+
+	std::cout<<"Please choose one of the bodies listed above: ";
+	while(!(std::cin>>planet) or planet < 0 or planet > 10){
+
+	    std::cout<<"Invalid option, try again\n";
+	    std::cin.clear();
+	    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	    std::cout<<"Please choose one of the bodies listed above: ";
-	    std::cin>>planet;
-	    if(planet<=10 and planet >=0) break;
-	    std::cout<<"Invalid input, try again\n\n";
-	}
+	}//this makes sure that the entered input is an int and is in range
 	if (planet<10){
 	    CelestialBody* dummy_planet = new CelestialBody(*list_of_planets[planet]);
 	    bodies.push_back(dummy_planet);
 	    std::cout<<"Do you want to use the default state of "<<bodies[i]->getName()<<"? [y/n]: ";
-	    char choice = 'y';
-	    std::cin>>choice;
+	    char choice;
+
+	    while(!(std::cin>>choice)){
+		std::cout<<"Do you want to use the default state of "<<bodies[i]->getName()<<"? [y/n]: ";
+		std::cin.clear();
+		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	    }//this makes sure that the entered input is a char
 	    if(choice == 'n'){
-		std::cout<<"Initial state of body "<<i+1<<std::endl;
+		std::cout<<"Initial state of "<<bodies[i]->getName()<<":\n";
 		double x,y,z,vx,vy,vz;
 		std::cout<<"x [m] = ";
 		std::cin>>x;
@@ -58,6 +73,10 @@ void customSettings(std::vector<CelestialBody*>& bodies){
 		bodies[i]->setPos({x,y,z});
 		bodies[i]->setVel({vx,vy,vz});
 	    }
+	    else{
+		std::cout<<"Using default state of "<<bodies[i]->getName();
+		std::cout<<", defined in include/planets.h\n";
+	    }
 	}
 	else if (planet == 10){
 	    std::cout<<"Name of the body: ";
@@ -66,7 +85,7 @@ void customSettings(std::vector<CelestialBody*>& bodies){
 	    std::cin>> custom_name;
 	    std::cout<<"Mass of the body [kg] = ";
 	    std::cin>>custom_mass;
-	    std::cout<<"Initial state of body '"<<custom_name<<"\n";
+	    std::cout<<"Initial state of body '"<<custom_name<<":\n";
 	    std::cout<<"x [m] = ";
 	    std::cin>>x;
 	    std::cout<<"y [m] = ";
@@ -117,26 +136,27 @@ void setInitialConditions(std::vector<CelestialBody*>& bodies){
     Planets planets;
     std::vector<CelestialBody*> list_of_planets = planets.list_of_planets;
     unsigned int input = 0;
-    while(true){
-	std::cout << "Welcome to the n-body simulator!\nYou can choose a preset or setup a custom simulation.\n\n";
-	std::cout << "  - 1) Earth - Moon\n";
-	std::cout << "  - 2) Sun - Earth\n";
-	std::cout << "  - 3) Sun - Earth - Moon\n";
-	std::cout << "  - 4) Solar System (full)\n";
-	std::cout << "  - 5) Inner Solar System\n";
-	std::cout << "  - 6) Outer Solar System\n";
-	std::cout << "  - 7) Four body system\n";
-	std::cout << "  - 8) Custom\n\n";
-	std::cout << "Choose one of the options above: ";
-	std::cin>>input;
-	std::cout << std::endl;
-	if(input <= 8 and input > 0) break;
+    std::cout << "Welcome to the n-body simulator!\nYou can choose a preset or setup a custom simulation.\n\n";
+    std::cout << "  - 1) Earth - Moon\n";
+    std::cout << "  - 2) Sun - Earth\n";
+    std::cout << "  - 3) Sun - Earth - Moon\n";
+    std::cout << "  - 4) Solar System (full)\n";
+    std::cout << "  - 5) Inner Solar System\n";
+    std::cout << "  - 6) Outer Solar System\n";
+    std::cout << "  - 7) Four body system\n";
+    std::cout << "  - 8) Custom\n\n";
+    std::cout << "Choose one of the options above: ";
+    while(!(std::cin>>input) or input < 0 or input > 8){    
 	std::cout<<"Invalid option, try again\n";
-    }
+	std::cin.clear();
+	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	std::cout << "Choose one of the options above: ";
+    } //this makes sure that the entered input is an int and is 0 < input < 9
+
     if (input == 1){
 	bodies.push_back(planets.earth);
 	bodies.push_back(planets.moon);
-	std::cout<<"Suggested simulation times are:\n";
+	std::cout<<"\nSuggested simulation times are:\n";
 	std::cout<<"Total time: 2.7e6s (i.e. 28 days)\nTime step: 10s\n\n";
     }
     else if (input == 2){
