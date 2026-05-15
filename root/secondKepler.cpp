@@ -41,7 +41,7 @@ void secondKepler(){
     double dt = 100.;		//3e5 iterations
     std::cout<<"Simulating sun and earth\n";
     std::vector<std::vector<double>> vector_r = equivalentBodySimulation(*sun, *earth, totalt, dt);
-    std::cout<<"\nSuccessfully simulated sun and earth\n\n";
+    std::cout<<"Successfully simulated sun and earth                                  \n\n";
     unsigned int n = vector_r.size();
     delete earth;	//to initialize it later
     delete sun;		//to free memory
@@ -60,7 +60,7 @@ void secondKepler(){
     dt = 10.;		//3e5 iterations
     std::cout<<"Simulating earth and moon\n";
     vector_r = equivalentBodySimulation(*earth, *moon, totalt, dt);
-    std::cout<<"\nSuccessfully simulated earth and moon\n";
+    std::cout<<"Successfully simulated earth and moon                               \n\n";
     n = vector_r.size();
     delete earth;	//to initialize it later
     delete moon;		//to free memory

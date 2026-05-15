@@ -50,7 +50,7 @@ void thirdKepler(){
     double dt = 10.;		//2e5 iterations
     std::cout<<"Simulating Earth and Moon\n";
     std::vector<std::vector<double>> vector_r = equivalentBodySimulation(*earth, *moon, totalt, dt);
-    std::cout<<"\nSuccessfully simulated Earth and Moon\n\n";
+    std::cout<<"Successfully simulated Earth and Moon                                 \n\n";
     delete earth;	//to initialize it later
     delete moon;	//to free memory
     std::vector<double> results = orbitResults(vector_r, dt);
@@ -70,7 +70,7 @@ void thirdKepler(){
     dt = 100.;		//2e5 iterations
     std::cout<<"Simulating Sun and Earth\n";
     vector_r = equivalentBodySimulation(*sun, *earth, totalt, dt);
-    std::cout<<"\nSuccessfully simulated Sun and Earth\n";
+    std::cout<<"Successfully simulated Sun and Earth                                  \n\n";
     delete earth;	
     delete sun;
     results = orbitResults(vector_r, dt);
@@ -91,7 +91,7 @@ void thirdKepler(){
     dt = 100.;		//2e5 iterations
     std::cout<<"Simulating Sun and Venus\n";
     vector_r = equivalentBodySimulation(*sun, *venus, totalt, dt);
-    std::cout<<"\nSuccessfully simulated Sun and Venus\n";
+    std::cout<<"Successfully simulated Sun and Venus                                  \n\n";
     delete venus;	
     delete sun;
     results = orbitResults(vector_r, dt);
@@ -112,7 +112,7 @@ void thirdKepler(){
     dt = 1000.;		//2e5 iterations
     std::cout<<"Simulating Sun and Jupiter\n";
     vector_r = equivalentBodySimulation(*sun, *jupiter, totalt, dt);
-    std::cout<<"\nSuccessfully simulated Sun and Jupiter\n";
+    std::cout<<"Successfully simulated Sun and Jupiter                                \n\n";
     delete jupiter;	
     delete sun;
     results = orbitResults(vector_r, dt);
@@ -123,6 +123,7 @@ void thirdKepler(){
     std::cout<<"k_simul = "<< std::pow(results[1],2) / std::pow(results[0],3)<<std::endl;
     std::cout<<"k_calc = "<< 4 * PI * PI / G / (sun->getMass() + jupiter->getMass())<<std::endl<<std::endl;
 ; 
+    std::cout<<"\e[?25h";
     results.clear();
     results.shrink_to_fit();
     return;

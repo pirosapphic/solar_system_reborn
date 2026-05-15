@@ -230,6 +230,7 @@ std::vector<std::vector<double>> equivalentBodySimulation(CelestialBody& p1, Cel
 	int perc_int = 100*percentage;
 	int barlen = 50;
 	int bar = std::ceil(percentage*barlen);
+	std::cout<<"\e[?25l"; //hides cursor
 	std::cout<<"\rLoading... [";
 	for(int m = 1; m <= bar; m++){
 	    std::cout<<"■";
@@ -237,13 +238,15 @@ std::vector<std::vector<double>> equivalentBodySimulation(CelestialBody& p1, Cel
 	for(int m = 1; m <= barlen-bar; m++){
 	    std::cout<<" ";
 	}
-	std::cout<<"] "<<std::setprecision(3)<<perc_int<<"%";
+	std::cout<<"] "<<std::setprecision(3)<<perc_int<<"%\r";
+	std::cout.flush();
 	//Progress bar ends
 	pos[i] = equivalent->getPos();
 	acceleration = gravityAcceleration(*equivalent, p1.getMass(),p2.getMass());
 	equivalent->updateVel(acceleration,dt);
 	equivalent->updatePos(dt);
     }
+    std::cout<<"\e[?25h";//unhides cursor
     pos.shrink_to_fit();
     return pos;
 }
@@ -274,6 +277,7 @@ void twoBodiesSimulation(CelestialBody& p1, CelestialBody& p2, double totalt, do
 	int perc_int = 100*percentage;
 	int barlen = 50;
 	int bar = std::ceil(percentage*barlen);
+	std::cout<<"\e[?25l"; //hides cursor
 	std::cout<<"\rLoading... [";
 	for(int m = 1; m <= bar; m++){
 	    std::cout<<"■";
@@ -281,7 +285,8 @@ void twoBodiesSimulation(CelestialBody& p1, CelestialBody& p2, double totalt, do
 	for(int m = 1; m <= barlen-bar; m++){
 	    std::cout<<" ";
 	}
-	std::cout<<"] "<<std::setprecision(3)<<perc_int<<"%";
+	    std::cout<<"] "<<std::setprecision(3)<<perc_int<<"%\r";
+	    std::cout.flush();
 	//Progress bar ends
 
 	pos1[i] = p1.getPos();
@@ -294,7 +299,8 @@ void twoBodiesSimulation(CelestialBody& p1, CelestialBody& p2, double totalt, do
 	out_file<<std::setprecision(15)<<pos1[i][0]<<","<<pos1[i][1]<<","<<pos1[i][2]<<","<<pos2[i][0]<<","<<pos2[i][1]<<","<<pos2[i][2]<<std::endl;
     }
     out_file.close();
-    std::cout<<"\nSuccessfully simulated the motion of the bodies "<<p1.getName()<<" and "<<p2.getName()<<std::endl;
+    std::cout<<"\e[?25h"; //unhides cursor
+    std::cout<<"Successfully simulated the motion of the bodies "<<p1.getName()<<" and "<<p2.getName()<<"                     "<<std::endl;
     std::cout<<"Number of iterations: "<<steps<<std::endl;
 	std::cout<<"The simulated data is stored by columns (x,y,z) in "<<output_file<<".\nTo visualize it, you can run the dedicated root macros with\n  - root ./root/bodiesGraphic3D.cpp\n  - root ./root/bodiesGraphic2D.cpp\n";
     std::cout<<"  - root ./root/animation2D.cpp (and others, see README.md)\n";
@@ -364,15 +370,17 @@ void nBodiesSimulation(std::vector<CelestialBody*>& bodies, double totalt, doubl
 	    int perc_int = 100*percentage;
 	    int barlen = 50; //total characters
 	    int bar = std::ceil(percentage*barlen); //number of characters to be drawn
-	    std::cout<<"\rLoading... ["; //\r puts the cursor back to the beginning of the line
+	    std::cout<<"\e[?25l";
+	    std::cout<<"Loading... ["; //\r puts the cursor back to the beginning of the line
 	    for(int m = 1; m <= bar; m++){
 		std::cout<<"■";
 	    }
 	    for(int m = 1; m <= barlen-bar; m++){
 		std::cout<<" ";
 	    }
-	    std::cout<<"] "<<std::setprecision(3)<<perc_int<<"%";
-	    //progress bar ends
+	    std::cout<<"] "<<std::setprecision(3)<<perc_int<<"%\r";
+	    std::cout.flush();
+	    //Progress bar ends
 
 	    for (int i=0; i<n_bodies; i++) {
 		//We iterate on the bodies to calculate their accelerations
@@ -416,8 +424,8 @@ void nBodiesSimulation(std::vector<CelestialBody*>& bodies, double totalt, doubl
 	}//closing of the iterations loop
 	 // -------------------------------------------------------------------------------
 	out_file.close();
-
-	std::cout<<"\nSuccessfully simulated the motion of the bodies!\n";
+	std::cout<<"\e[?25h";
+	std::cout<<"Successfully simulated the motion of the bodies!                      \n";
 	std::cout<<"Number of iterations: "<<steps<<std::endl;
 	std::cout<<"The simulated data is stored by columns (x,y,z) in "<<output_file<<".\nTo visualize it, you can run the dedicated root macros with\n  - root ./root/bodiesGraphic3D.cpp\n  - root ./root/bodiesGraphic2D.cpp\n";
     std::cout<<"  - root ./root/animation2D.cpp (and others, see README.md)\n";
